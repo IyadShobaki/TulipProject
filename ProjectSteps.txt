@@ -22,5 +22,9 @@ Tulip Project Steps
 	- Under VALUE type (Bearer myToken)
 	- Click on Send
 
-// Configuring Swagger in WebAPI
+// Configuring Swagger in WebAPI (Swagger allow us to document our API)
 6. Install 'swashbuckle' NuGet package to add Swagger
+7. Configuring Swagger:
+	- Create a new class to add token route to swagger (AuthTokenOperation.cs)
+	- Add "c.DocumentFilter<AuthTokenOperation>();" to SwaggerConfig.cs
+	- Create a new class to add an operation filter (AuthorizationOperationFilter.cs)

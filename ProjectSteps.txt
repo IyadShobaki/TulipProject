@@ -21,3 +21,6 @@ Tulip Project Steps
 	- Under KEY type (Authorization)
 	- Under VALUE type (Bearer myToken)
 	- Click on Send
+
+// Configuring Swagger in WebAPI
+6. Install 'swashbuckle' NuGet package to add Swagger

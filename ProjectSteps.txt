@@ -1,0 +1,23 @@
+Tulip Project Steps
+
+1. Create ASP.NET Web Application (.NET Framework) --> API    (TulipDataManager)
+2. Update all NuGet pacages that need to be update (exept Bootstrap 4)
+
+// POSTMAN
+3. Register a new account using Postman:
+	- POST: https://localhost:44351/api/account/register
+	- Click on Body -> choose 'raw', and JSON (instead of text)
+	- New Json object { "Email": "myEmail", "myPassword": "*****", "ConfirmPassword": "******" }
+	- Click on Send
+4. Get the token using Postman:
+	- GET: https://localhost:44351/token
+	- Click on Body -> choose 'x-www-form-urlencoded'
+	- Under KEY type (grant_type, username, password)
+	- Under VALUE type (password, myEmail, myPassword)
+	- Click on Send
+5. We can make requests using the token (see next example):
+	- GET: https://localhost:44351/api/values
+	- Click on Headers
+	- Under KEY type (Authorization)
+	- Under VALUE type (Bearer myToken)
+	- Click on Send

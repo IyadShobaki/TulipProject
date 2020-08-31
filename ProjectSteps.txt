@@ -28,3 +28,7 @@ Tulip Project Steps
 	- Create a new class to add token route to swagger (AuthTokenOperation.cs)
 	- Add "c.DocumentFilter<AuthTokenOperation>();" to SwaggerConfig.cs
 	- Create a new class to add an operation filter (AuthorizationOperationFilter.cs)
+
+// ------
+8. Add SQL Server Database Project:
+	- Setup and publish the "empty" database

@@ -48,4 +48,22 @@ Tulip Project Steps
 							</ResourceDictionary>
 	- Delete MainWindow.xaml
 
+// -------
+10. Setup the dependency injection system for WPF UI, which come with Caliburn.Micro (Simple Container)
+	- Build the system inside Bootstrapper.cs 
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

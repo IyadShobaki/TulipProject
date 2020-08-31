@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TulipData", "TulipData\TulipData.sqlproj", "{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipWpfUI", "TulipWpfUI\TulipWpfUI.csproj", "{DDB9D295-0E0A-4ABC-9BF2-130070966796}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BBC09094-CD2F-4945-BD8B-A60E85EDF2CE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB9D295-0E0A-4ABC-9BF2-130070966796}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

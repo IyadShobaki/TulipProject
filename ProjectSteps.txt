@@ -32,3 +32,20 @@ Tulip Project Steps
 // ------
 8. Add SQL Server Database Project:
 	- Setup and publish the "empty" database
+// ------
+9. Add WPF UI Project:
+	- Install Caliburn.Micro NuGet package
+	- Wire up Caliburn.Micro by adding MVVM folders and Bootstrapper class
+	- In App.xaml:
+		* Remove (StartupUri="MainWindow.xaml")
+		* Add to the Application.Resources the following:
+							<ResourceDictionary>
+								<ResourceDictionary.MergedDictionaries>
+									<ResourceDictionary>
+										<local:Bootstrapper x:Key="Bootstarapper"/>
+									</ResourceDictionary>
+								</ResourceDictionary.MergedDictionaries>
+							</ResourceDictionary>
+	- Delete MainWindow.xaml
+
+	

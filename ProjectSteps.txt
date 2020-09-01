@@ -52,7 +52,8 @@ Tulip Project Steps
 10. Setup the dependency injection system for WPF UI, which come with Caliburn.Micro (Simple Container)
 	- Build the system inside Bootstrapper.cs 
 	
-
+// -------
+11. Add tables to the database
 
 
 

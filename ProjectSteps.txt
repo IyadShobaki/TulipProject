@@ -54,6 +54,9 @@ Tulip Project Steps
 	
 // -------
 11. Add tables to the database
+// -------
+12. Add Login Form (User Control (WPF)) inside Views folder (WPF project):
+	- Add password box helper
 
 
 

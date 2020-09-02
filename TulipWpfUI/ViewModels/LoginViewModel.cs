@@ -4,13 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TulipWpfUI.Helpers;
 
 namespace TulipWpfUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
+        private readonly IAPIHelper _apiHelper;
         private string _userName;
         private string _password;
+
+        public LoginViewModel(IAPIHelper apiHelper)
+        {
+            _apiHelper = apiHelper;
+        }
 
         public string UserName
         {
@@ -48,9 +55,16 @@ namespace TulipWpfUI.ViewModels
                 return output;
             }
         }
-        public void LogIn()
+        public async Task LogIn()
         {
-          
+            try
+            {
+                var result = await _apiHelper.Authenticate(UserName, Password);
+            }
+            catch (Exception ex)
+            {
+                
+            }
         }
     }
 }

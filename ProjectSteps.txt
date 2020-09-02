@@ -57,6 +57,9 @@ Tulip Project Steps
 // -------
 12. Add Login Form (User Control (WPF)) inside Views folder (WPF project):
 	- Add password box helper
+// ------
+13. Connect Login form to the api:
+	- Get the bearer token or an exception if failed
 
 
 

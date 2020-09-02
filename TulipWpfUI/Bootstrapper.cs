@@ -30,7 +30,9 @@ namespace TulipWpfUI
 
             _container
                 .Singleton<IWindowManager, WindowManager>()
-                .Singleton<IEventAggregator, EventAggregator>();
+                .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<IAPIHelper, APIHelper>();
+
 
             // Use reflection to get all models inside ViewModels folder
             GetType().Assembly.GetTypes()

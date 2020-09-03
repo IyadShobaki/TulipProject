@@ -60,7 +60,8 @@ Tulip Project Steps
 // ------
 13. Connect Login form to the api:
 	- Get the bearer token or an exception if failed
-
+// ------
+14. Add error handling with an error message to login form
 
 
 

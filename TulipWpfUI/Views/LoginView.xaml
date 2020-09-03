@@ -8,7 +8,7 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="500"/>
+            <RowDefinition Height="550"/>
         </Grid.RowDefinitions>
         <Rectangle Height="280" VerticalAlignment="Top">
             <Rectangle.Fill>
@@ -19,21 +19,34 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Image Source="/Images/login.png" Width="150" Height="80" VerticalAlignment="Top" Margin="25"/>
-        <Rectangle Width="280" Height="280" Fill="White" VerticalAlignment="Bottom" Margin="0,70">
+        <Image Source="/Images/login.png" Width="150" 
+               Height="80" VerticalAlignment="Top" Margin="25"/>
+        <Rectangle Width="280" Height="300" Fill="White"
+                   VerticalAlignment="Bottom" Margin="0,70">
             <Rectangle.Effect>
-                <DropShadowEffect Direction="0" Color="#FFBBBBBB" RenderingBias="Quality" BlurRadius="15" ShadowDepth="2"/>
+                <DropShadowEffect Direction="0" Color="#FFBBBBBB"
+                                  RenderingBias="Quality" BlurRadius="15"
+                                  ShadowDepth="2"/>
             </Rectangle.Effect>
         </Rectangle>
-        <StackPanel Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
+        <StackPanel Width="280" Height="300" 
+                    VerticalAlignment="Bottom" Margin="0,70">
 
-            <TextBlock Text="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" FontWeight="SemiBold" FontSize="24"
-                       />
+            <TextBlock Text="LOGIN" HorizontalAlignment="Center"
+                       VerticalAlignment="Top" Margin="5" 
+                       FontWeight="SemiBold" FontSize="24" />
+            <TextBlock x:Name="ErrorMessage"
+                       Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                       FontSize="12" HorizontalAlignment="Center"
+                       Foreground="red" MaxWidth="260"
+                       TextWrapping="Wrap"/>
             <TextBlock Text="Username:" Margin="10 10 10 0"/>
             <TextBox x:Name="UserName" Margin="10 5 10 0"/>
             <TextBlock Text="Password:" Margin="10 10 10 0"/>
             <PasswordBox x:Name="Password"  Margin="10 5 10 0"/>
-            <Button x:Name="LogIn" Background="#FF2281D1" VerticalAlignment="Bottom" Width="150" Height="50" Content="LOGIN"
+            <Button x:Name="LogIn" Background="#FF2281D1" 
+                    VerticalAlignment="Bottom" Width="150" 
+                    Height="50" Content="LOGIN"
                     Foreground="White" Margin="17"/>
             
         </StackPanel>

@@ -13,6 +13,7 @@ namespace TulipWpfUI.ViewModels
         private readonly IAPIHelper _apiHelper;
         private string _userName;
         private string _password;
+        private string _errorMessage;
 
         public LoginViewModel(IAPIHelper apiHelper)
         {
@@ -41,6 +42,36 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
+        public bool IsErrorVisible
+        {
+            get 
+            {
+                bool output = false;
+                if (ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+                return output;
+            }
+            
+        }
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set
+            {
+                 
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+              
+               
+
+            }
+        }
+
+
         public bool CanLogIn
         {
             get
@@ -59,11 +90,12 @@ namespace TulipWpfUI.ViewModels
         {
             try
             {
+                ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(UserName, Password);
             }
             catch (Exception ex)
             {
-                
+                ErrorMessage = ex.Message;
             }
         }
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TulipWpfUI.Helpers;
+using TulipWpfUI.Library.Api;
 
 namespace TulipWpfUI.ViewModels
 {
@@ -92,6 +92,9 @@ namespace TulipWpfUI.ViewModels
             {
                 ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(UserName, Password);
+
+                // Capture more information about the user
+                await _apiHelper.GetLoggendInUserInfo(result.Access_Token);
             }
             catch (Exception ex)
             {

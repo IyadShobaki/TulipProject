@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TulipWpfUI.Models
+namespace TulipWpfUI.Library.Models
 {
     public class AuthenticatedUser
     {

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TulipWpfUI.Helpers;
+using TulipWpfUI.Library.Api;
+using TulipWpfUI.Library.Models;
 using TulipWpfUI.ViewModels;
 
 namespace TulipWpfUI
@@ -31,6 +33,7 @@ namespace TulipWpfUI
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IAPIHelper, APIHelper>();
 
 

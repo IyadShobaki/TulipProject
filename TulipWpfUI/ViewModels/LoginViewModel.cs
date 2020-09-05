@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
 
 namespace TulipWpfUI.ViewModels
@@ -11,13 +12,15 @@ namespace TulipWpfUI.ViewModels
     public class LoginViewModel : Screen
     {
         private readonly IAPIHelper _apiHelper;
+        private readonly IEventAggregator _events;
         private string _userName;
         private string _password;
         private string _errorMessage;
 
-        public LoginViewModel(IAPIHelper apiHelper)
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
 
         public string UserName
@@ -95,11 +98,18 @@ namespace TulipWpfUI.ViewModels
 
                 // Capture more information about the user
                 await _apiHelper.GetLoggendInUserInfo(result.Access_Token);
+
+                _events.PublishOnUIThread(new LogOnEvent());
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
             }
+        }
+
+        public void CreateAccount()
+        {
+            _events.PublishOnUIThread(new RegisterEvent());
         }
     }
 }

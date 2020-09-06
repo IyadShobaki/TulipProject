@@ -152,10 +152,10 @@ namespace TulipWpfUI.ViewModels
                     user.EmailAddress = Email;
 
                     await _apiHelper.PostUserInfo(user);
-                }
-               
 
-                //_events.PublishOnUIThread(new LogOnEvent());
+                    _events.PublishOnUIThread(new LogInEvent());
+                }
+                
             }
             catch (Exception ex)
             {
@@ -169,6 +169,15 @@ namespace TulipWpfUI.ViewModels
         public void LogIn()
         {
             _events.PublishOnUIThread(new LogInEvent());
+        }
+
+        public void ResetFields()
+        {
+            FirstName = "";
+            LastName = "";
+            Email = "";
+            Password = "";
+            ConfirmPassword = "";
         }
     }
 }

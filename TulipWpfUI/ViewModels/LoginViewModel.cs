@@ -13,8 +13,8 @@ namespace TulipWpfUI.ViewModels
     {
         private readonly IAPIHelper _apiHelper;
         private readonly IEventAggregator _events;
-        private string _userName;
-        private string _password;
+        private string _userName = "iyad@shobaki.com";
+        private string _password = "Pwd12345.";
         private string _errorMessage;
 
         public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)

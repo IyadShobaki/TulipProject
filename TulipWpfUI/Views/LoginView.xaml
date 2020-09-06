@@ -8,7 +8,7 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <Grid>
-            <Rectangle Height="280" VerticalAlignment="Top">
+            <Rectangle Height="600" VerticalAlignment="Top">
                 <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" >
                         <GradientStop Color="#FF2281D1" Offset="0.1"/>

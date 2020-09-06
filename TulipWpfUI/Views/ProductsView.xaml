@@ -4,26 +4,57 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TulipWpfUI.Views"
-             mc:Ignorable="d" Background="White" FontSize="18"
-             d:DesignHeight="600" d:DesignWidth="800">
+             mc:Ignorable="d" Background="Beige" FontSize="18"
+             d:DesignHeight="600" d:DesignWidth="1080">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="170"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Products Page"/>
+        <Grid Grid.RowSpan="2">
+            <TextBlock Text="Men Products" HorizontalAlignment="Center"
+                       Margin="10 30 10 0" FontSize="20"/>
+        </Grid>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" Background="#FFF1F1F1">
+            <StackPanel>
+                <StackPanel Margin="20 0">
+                    <ItemsControl ItemsSource="{Binding Products}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="10" Width="220" Height="350">
+                                    <StackPanel>
+                                        <Border Width="210" Height="200" CornerRadius="5" Margin="5">
+                                            <Border.Effect>
+                                                <DropShadowEffect ShadowDepth="1"/>
+                                            </Border.Effect>
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding ProductImage}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <TextBlock Margin="5" Text="{Binding RetailPrice, StringFormat={}{0:C}}" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBlock Margin="5 0" Text="{Binding Description}" FontSize="13" FontWeight="Medium" HorizontalAlignment="Center"/>
+                                        <TextBox Margin="5 0 5 5"/>
+                                        <Button x:Name="AddToCart" Background="#FF2281D1" 
+                                                Content="Add To Cart"
+                                                Foreground="White" Margin="5 0 5 0"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                   
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </UserControl>

@@ -20,5 +20,11 @@ namespace TulipDataManager.Library.DataAccess
 
             return output;
         }
+
+        public void InsertUser(UserModel user)
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+            sql.SaveData("dbo.spUser_Insert", user, "TulipData");
+        }
     }
 }

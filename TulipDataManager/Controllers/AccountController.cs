@@ -321,7 +321,7 @@ namespace TulipDataManager.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+       public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -331,7 +331,7 @@ namespace TulipDataManager.Controllers
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
+          
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);

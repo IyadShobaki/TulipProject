@@ -17,7 +17,9 @@ namespace TulipDataManager.Controllers
             // Using Postman to display the user id
             string userId = RequestContext.Principal.Identity.GetUserId();
 
-            return new string[] { "value1", "value2", userId };
+            //return new string[] { "value1", "value2", userId };
+            return new string[] {  userId };
+         
         }
 
         // GET api/values/5

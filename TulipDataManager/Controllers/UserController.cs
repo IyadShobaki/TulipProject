@@ -20,6 +20,15 @@ namespace TulipDataManager.Controllers
             UserData data = new UserData();
 
             return data.GetUserById(userId).First();
+      
+        }
+        [HttpPost]
+        public void Post(UserModel user)
+        {
+
+            UserData data = new UserData();
+            data.InsertUser(user);
+         
         }
 
     }

@@ -81,5 +81,65 @@ namespace TulipWpfUI.Library.Api
                 }
             }
         }
+      
+        public async Task<string> RegisterUser(string email, string password, string confirmPassword)
+        {
+            var data = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("email", email),
+                new KeyValuePair<string, string>("password", password),
+                new KeyValuePair<string, string>("confirmPassword", confirmPassword)
+            });
+
+            using (HttpResponseMessage response = await apiClient.PostAsync("/api/account/register", data))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return "success";
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+        public async Task PostUserInfo(UserModel user)
+        {
+            using (HttpResponseMessage response = await apiClient.PostAsJsonAsync("/api/User", user))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+
+        public async Task<string> GetUserId(string token)
+        {
+            apiClient.DefaultRequestHeaders.Clear();
+            apiClient.DefaultRequestHeaders.Accept.Clear();
+            apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            apiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer { token }");
+
+            using (HttpResponseMessage response = await apiClient.GetAsync("/api/values"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                   
+                    var result = await response.Content.ReadAsAsync<List<string>>();
+
+                    return result[0];
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

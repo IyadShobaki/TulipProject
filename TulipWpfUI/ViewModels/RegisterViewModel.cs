@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
 using TulipWpfUI.Library.Models;
@@ -104,19 +105,14 @@ namespace TulipWpfUI.ViewModels
         }
 
         private string _errorMessage;
-
         public string ErrorMessage
         {
             get { return _errorMessage; }
             set
             {
-
                 _errorMessage = value;
                 NotifyOfPropertyChange(() => IsErrorVisible);
                 NotifyOfPropertyChange(() => ErrorMessage);
-
-
-
             }
         }
 
@@ -138,7 +134,8 @@ namespace TulipWpfUI.ViewModels
         {
             try
             {
-                ErrorMessage = "New Account has been created!";
+               
+              
                 string createSuccess = await _apiHelper.RegisterUser(Email, Password, ConfirmPassword);
 
                 if (createSuccess == "success")
@@ -155,7 +152,8 @@ namespace TulipWpfUI.ViewModels
 
                     _events.PublishOnUIThread(new LogInEvent());
                 }
-                
+                //ErrorMessage = "New Account has been created!";
+                MessageBox.Show($"New Account has been created successfully");
             }
             catch (Exception ex)
             {

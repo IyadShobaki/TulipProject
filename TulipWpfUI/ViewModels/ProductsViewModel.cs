@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
 using TulipWpfUI.Library.Models;
 
@@ -14,10 +15,12 @@ namespace TulipWpfUI.ViewModels
     {
         private BindingList<ProductModel> _products;
         private IProductEndPoint _productEndPoint;
+        private readonly IEventAggregator _events;
 
-        public ProductsViewModel(IProductEndPoint productEndPoint)
+        public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events)
         {
-            _productEndPoint = productEndPoint;      
+            _productEndPoint = productEndPoint;
+            _events = events;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -40,6 +43,26 @@ namespace TulipWpfUI.ViewModels
                 _products = value;
                 NotifyOfPropertyChange(() => Products);
             }
+        }
+
+        public bool IsAdmin
+        {
+            get
+            {
+                //bool output = false;
+                //if (ErrorMessage?.Length > 0)
+                //{
+                //    output = true;
+                //}
+                //return output;
+                return true;
+            }
+
+        }
+
+        public void Admin()
+        {
+            _events.PublishOnUIThread(new InsertProductsEvent());
         }
 
     }

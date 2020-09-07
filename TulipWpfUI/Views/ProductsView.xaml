@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TulipWpfUI.Views"
              mc:Ignorable="d" Background="Beige" FontSize="18"
-             d:DesignHeight="600" d:DesignWidth="1080">
+             d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -18,6 +18,8 @@
         <Grid Grid.RowSpan="2">
             <TextBlock Text="Men Products" HorizontalAlignment="Center"
                        Margin="10 30 10 0" FontSize="20"/>
+            <Button x:Name="Admin" Content="Add Product" Height="30" Width="100"
+                    Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
         </Grid>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Background="#FFF1F1F1">
             <StackPanel>

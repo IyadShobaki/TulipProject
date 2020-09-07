@@ -7,5 +7,7 @@ namespace TulipWpfUI.Library.Api
     public interface IProductEndPoint
     {
         Task<List<ProductModel>> GetAll();
+        Task PostInventoryInfo(InventoryModel inventory);
+        Task<int> PostProductInfo(ProductModel product);
     }
 }

@@ -90,14 +90,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="EventModels\InsertProductsEvent.cs" />
     <Compile Include="EventModels\LogInEvent.cs" />
     <Compile Include="EventModels\RegisterEvent.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="ViewModels\InsertProductsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\InsertProductsView.xaml.cs">
+      <DependentUpon>InsertProductsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -114,6 +119,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\InsertProductsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,6 +208,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\mendenimjeans.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenwoven.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenmidi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenmaxi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\womenlettuce.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

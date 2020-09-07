@@ -18,5 +18,20 @@ namespace TulipDataManager.Library.DataAccess
 
             return output;
         }
+
+        public int InsertProduct(ProductModel product)
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+            int newProductId = sql.CreateProduct("dbo.spProduct_Insert", product, "TulipData");
+
+            return newProductId;
+
+        }
+        public void InsertInventory(InventoryModel inventory)
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+            sql.SaveData("dbo.spInventory_Insert", inventory, "TulipData");
+
+        }
     }
 }

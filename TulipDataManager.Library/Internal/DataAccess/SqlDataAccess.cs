@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TulipDataManager.Library.Models;
 
 namespace TulipDataManager.Library.Internal.DataAccess
 {
@@ -37,10 +38,33 @@ namespace TulipDataManager.Library.Internal.DataAccess
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                 connection.Execute(storedProcedure,
-                    parameters, commandType: CommandType.StoredProcedure);
+                
+                connection.Execute(storedProcedure,
+                        parameters, commandType: CommandType.StoredProcedure);
+     
+            }
+        }
 
-              
+        public int CreateProduct(string storedProcedure, ProductModel product, string connectionStringName)
+        {
+            string connectionString = GetConnectionString(connectionStringName);
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                var p = new DynamicParameters();
+                p.Add("@ProductName", product.ProductName);
+                p.Add("@Description", product.Description);
+                p.Add("@ProductImage", product.ProductImage);
+                p.Add("@RetailPrice", product.RetailPrice);
+                p.Add("@QuantityInStock", product.QuantityInStock);
+                p.Add("@Sex", product.Sex);
+                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute(storedProcedure,
+                        p, commandType: CommandType.StoredProcedure);
+
+                int newId = p.Get<int>("@id");
+                return newId;
             }
         }
     }

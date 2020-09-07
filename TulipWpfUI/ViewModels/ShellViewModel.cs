@@ -9,7 +9,7 @@ using TulipWpfUI.EventModels;
 namespace TulipWpfUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<RegisterEvent>,
-        IHandle<LogInEvent>
+        IHandle<LogInEvent>, IHandle<InsertProductsEvent>
     {
        
         private IEventAggregator _events;
@@ -42,6 +42,11 @@ namespace TulipWpfUI.ViewModels
         public void Handle(LogInEvent message)
         {
             ActivateItem(_container.GetInstance<LoginViewModel>());
+        }
+
+        public void Handle(InsertProductsEvent message)
+        {
+            ActivateItem(_container.GetInstance<InsertProductsViewModel>());
         }
     }
 }

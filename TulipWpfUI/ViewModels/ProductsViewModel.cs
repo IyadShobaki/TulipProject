@@ -14,7 +14,6 @@ namespace TulipWpfUI.ViewModels
 {
     public class ProductsViewModel : Screen
     {
-        private BindingList<ProductModel> _products;
         private IProductEndPoint _productEndPoint;
         private readonly IEventAggregator _events;
 
@@ -34,55 +33,41 @@ namespace TulipWpfUI.ViewModels
         private async Task LoadProducts()
         {
             var productList = await _productEndPoint.GetAll();
-            Products = new BindingList<ProductModel>(productList);
+            Products.AddRange(productList.Select(x => CreateProduct(x)));
         }
 
-        public BindingList<ProductModel> Products
+        private ProductViewModel CreateProduct(ProductModel product)
         {
-            get { return _products; }
-            set 
+         
+            var productViewModel =  new ProductViewModel(product);
+            productViewModel.AddTCart += OnProductAdd;
+            return productViewModel;
+        }
+
+        private void OnProductAdd(object sender, EventArgs e)
+        {
+            var productToAdd = (ProductViewModel)sender;
+            //Products.Remove(productToAdd);
+            Cart.Add(productToAdd);
+            
+        }
+
+        public BindableCollection<ProductViewModel> Products { get; } = new BindableCollection<ProductViewModel>();
+
+        private BindingList<ProductViewModel> _cart = new BindingList<ProductViewModel>();
+
+        public BindingList<ProductViewModel> Cart
+        {
+            get { return _cart; }
+            set
             {
-                _products = value;
-                NotifyOfPropertyChange(() => Products);
+
+                _cart = value;
+                NotifyOfPropertyChange(() => Cart);
+
             }
         }
 
-        private int _itemQuantity;
-
-        public int ItemQuantity
-        {
-            get { return _itemQuantity; }
-            set 
-            {
-                _itemQuantity = value;
-                NotifyOfPropertyChange(() => ItemQuantity);
-                NotifyOfPropertyChange(() => CanAddToCart);
-            }
-        }
-
-
-
-
-        public bool CanAddToCart
-        {
-            get
-            {
-                bool output = false;
-
-                if (ItemQuantity > 0 )
-                {
-                    output = true;
-                }
-
-                return output;
-            }
-        }
-
-        public void AddToCart(ProductModel product)
-        {
-
-            MessageBox.Show($"{product.Id}");
-        }
 
 
 

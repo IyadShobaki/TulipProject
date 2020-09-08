@@ -12,52 +12,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="220"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Grid.RowSpan="2">
             <TextBlock Text="Products" HorizontalAlignment="Center"
-                       Margin="10 30 10 0" FontSize="20"/>
+                       Margin="10 50 10 0" FontSize="20"/>
             <Button x:Name="test" Content="Add Product" Height="30" Width="100"
                     Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
             <Button x:Name="Admin" Background="#FF2281D1" 
-                    VerticalAlignment="Bottom" Width="130" 
+                    VerticalAlignment="Bottom" Width="110" 
                     Height="50" Content="Add Product"
                     Foreground="White" Margin="10" />
         </Grid>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Background="#FFF1F1F1">
             <StackPanel>
                 <StackPanel Margin="20 0">
-                    <ItemsControl ItemsSource="{Binding Products}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Margin="10" Width="220" Height="Auto">
-                                    <StackPanel>
-                                        <Border Width="210" Height="360" CornerRadius="5" Margin="5">
-                                            <Border.Effect>
-                                                <DropShadowEffect ShadowDepth="1"/>
-                                            </Border.Effect>
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ProductImage}" Stretch="Uniform"/>
-                                            </Border.Background>
-                                        </Border>
-                                        <TextBlock Margin="5" Text="{Binding RetailPrice, StringFormat={}{0:C}}" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                        <TextBlock Margin="5 0" Text="{Binding Description}" FontSize="13" FontWeight="Medium" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="{Binding QuantityInStock, StringFormat={}{0} items left}"
-                                                   HorizontalAlignment="Center" FontSize="11" Margin="5"/>
-                                        
-                                        <StackPanel Orientation="Horizontal"  Margin="5 0 5 5">
-                                            <TextBlock Text="Quantity" Margin="5 0 0 0"/>
-                                            <TextBox x:Name="ItemQuantity" Width="130" Margin="5 0 0 0"/>
-                                        </StackPanel>
-                                        <Button x:Name="AddToCart" Background="#FF2281D1" 
-                                                Content="Add To Cart"
-                                                Foreground="White" Margin="5"/>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+                    <ItemsControl x:Name="Products">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel/>
@@ -81,7 +53,11 @@
                        SelectedItem="{Binding SelectedCartItem}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding DisplayText}"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="{Binding ItemQuantity}" 
+                                       Margin="0 0 5 0"/>
+                            <TextBlock Text="{Binding ProductName}"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

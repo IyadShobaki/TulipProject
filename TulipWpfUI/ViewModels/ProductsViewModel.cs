@@ -33,24 +33,39 @@ namespace TulipWpfUI.ViewModels
         private async Task LoadProducts()
         {
             var productList = await _productEndPoint.GetAll();
-            Products.AddRange(productList.Select(x => CreateProduct(x)));
+            Products.AddRange(productList.Select(x => CreateProductViewModel(x)));
         }
 
-        private ProductViewModel CreateProduct(ProductModel product)
+        private ProductViewModel CreateProductViewModel(ProductModel product)
         {
          
             var productViewModel =  new ProductViewModel(product);
             productViewModel.AddTCart += OnProductAdd;
+            productViewModel.RemoveFCart += OnProductRemove;
             return productViewModel;
+        }
+
+        private void OnProductRemove(object sender, EventArgs e)
+        {
+            var productToAdd = (ProductViewModel)sender;
+
+            Cart.Remove(productToAdd);
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         private void OnProductAdd(object sender, EventArgs e)
         {
             var productToAdd = (ProductViewModel)sender;
-            //Products.Remove(productToAdd);
+
             Cart.Add(productToAdd);
-            
-        }
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+        }  
+
+        
 
         public BindableCollection<ProductViewModel> Products { get; } = new BindableCollection<ProductViewModel>();
 
@@ -61,12 +76,60 @@ namespace TulipWpfUI.ViewModels
             get { return _cart; }
             set
             {
-
                 _cart = value;
                 NotifyOfPropertyChange(() => Cart);
-
             }
         }
+
+        public string SubTotal
+        {
+            get
+            {
+                return CalculateSubTotal().ToString("C");
+            }
+        }
+
+        private decimal CalculateSubTotal()
+        {
+            decimal subTotal = 0;
+
+            foreach (var item in Cart)
+            {
+                subTotal += item.SubTotal;
+            }
+
+            return subTotal;
+        }
+        public string Tax
+        {
+            get
+            {
+                return CalculateTax().ToString("C");
+            }
+          
+        }
+
+        private decimal CalculateTax()
+        {
+            decimal taxAmount = 0;
+            foreach (var item in Cart)
+            {
+                taxAmount += item.Tax;
+            }
+
+            return taxAmount;
+        }
+
+        public string Total
+        {
+            get
+            {
+                decimal total = CalculateSubTotal() + CalculateTax();
+
+                return total.ToString("C");
+            }
+        }
+
 
 
 

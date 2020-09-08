@@ -43,45 +43,58 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Shopping Cart" HorizontalAlignment="Center"
                        Margin="10 50 10 0" FontSize="20"/>
-            <ListBox x:Name="Cart" Grid.Row="1" VerticalAlignment="Top"
-                       Height="Auto" Width="Auto" Margin="10 15"
-                       Background="LightCyan" BorderBrush="Blue"
-                       SelectedItem="{Binding SelectedCartItem}">
+            <StackPanel Grid.Row="1"  Orientation="Horizontal" Width="200">
+                <TextBlock Text="Quantity" 
+                           FontSize="12" Margin="0 0 5 0" />
+                <TextBlock Text="Description" Margin="10 0 10 0" 
+                           FontSize="12"/>
+                <TextBlock Text="SubTotal" 
+                           FontSize="12" HorizontalAlignment="Right"
+                           />
+            </StackPanel>
+            <ListBox   x:Name="Cart" Grid.Row="2" VerticalAlignment="Top"
+                       Height="Auto" Width="200" Margin="10 15"
+                       Background="LightCyan" BorderBrush="LightCyan"
+                       FontSize="14">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="{Binding ItemQuantity}" 
-                                       Margin="0 0 5 0"/>
-                            <TextBlock Text="{Binding ProductName}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ItemQuantity}"/>
+                            <TextBlock Text="{Binding ProductName}" Margin="10 0 20 0"/>
+                            <TextBlock Text="{Binding SubTotal, StringFormat={}{0:C}}"
+                                      TextAlignment="Right"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <StackPanel  Grid.Row="3" Width="Auto" Margin="10 15"
-                         Height="120" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="SubTotal: " />
+            <StackPanel Orientation="Vertical" Grid.Row="3" Width="200">
+                <StackPanel Orientation="Horizontal" Margin="0 5" >
+                    <TextBlock Text="SubTotal: " Margin="0 0 31 0"/>
                     <TextBlock x:Name="SubTotal" Text="$0.00"
-                  TextAlignment="Right"/>
+                                />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0 5" >
-                    <TextBlock Text="Tax: " />
+                    <TextBlock Text="Tax: " Margin="0 0 74 0"/>
                     <TextBlock x:Name="Tax" Text="$0.00"
-                                HorizontalAlignment="Right"/>
+                                TextAlignment="Right"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal"  >
-                    <TextBlock Text="Total: " />
-                    <TextBlock x:Name="Total" Text="$0.00"
-                  TextAlignment="Right"/>
+                <StackPanel Orientation="Horizontal" Width="200" >
+                    <TextBlock Text="Total: " Margin="0 0 60 0"/>
+                    <TextBlock x:Name="Total" Text="$0.00" 
+                                TextAlignment="Right"/>
                 </StackPanel>
-               
+                <StackPanel Margin="10">
+                    <Button x:Name="CheckOut" Background="#FF2281D1" 
+                                                Content="Check Out"
+                                                Foreground="White" Margin="5"/>
+                </StackPanel>
             </StackPanel>
-
-        
+            
         </Grid>
     </Grid>
 </UserControl>

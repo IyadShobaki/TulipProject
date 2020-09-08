@@ -28,6 +28,9 @@
                 <Button x:Name="AddToCart" Background="#FF2281D1" 
                                                 Content="Add To Cart"
                                                 Foreground="White" Margin="5"/>
+                <Button x:Name="RemoveFromCart" Background="#FF2281D1" 
+                                                Content="Remove From Cart"
+                                                Foreground="White" Margin="5"/>
             </StackPanel>
         </Border>
     </Grid>

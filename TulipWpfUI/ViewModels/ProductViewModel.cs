@@ -10,7 +10,7 @@ namespace TulipWpfUI.ViewModels
 {
     public class ProductViewModel : Screen
     {
-        private readonly ProductModel _product;
+        private ProductModel _product;
 
         public ProductViewModel(ProductModel product)
         {
@@ -39,7 +39,67 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
+        public decimal SubTotal
+        {
+            get
+            {
+                return CalculateSubTotal();
+            }
+        }
+
+        private decimal CalculateSubTotal()
+        {
+            decimal subTotal = 0;
+
+            subTotal += (RetailPrice * ItemQuantity);
+
+            return subTotal;
+        }
+
+        public decimal Tax
+        {
+            get
+            {
+                return CalculateTax();
+            }
+        }
+
+        private decimal CalculateTax()
+        {
+            //decimal taxRate = _configHelper.GetTaxRate() / 100;  TODO
+            decimal taxRate = (decimal)8.75 / 100;
+
+            decimal taxAmount = RetailPrice * ItemQuantity * taxRate;
+
+            return taxAmount;
+        }
+
+        public decimal Total
+        {
+            get
+            {
+                decimal total = CalculateSubTotal() + CalculateTax();
+
+                return total;
+            }
+        }
+
         public event EventHandler AddTCart;
+
+        public event EventHandler RemoveFCart;
+
+        private bool _isAdded = true;
+
+        public bool IsAdded
+        {
+            get { return _isAdded; }
+            set 
+            {
+                _isAdded = value;
+                NotifyOfPropertyChange(() => IsAdded);
+                NotifyOfPropertyChange(() => CanAddToCart);
+            }
+        }
 
         public bool CanAddToCart
         {          
@@ -48,7 +108,7 @@ namespace TulipWpfUI.ViewModels
 
                 bool output = false;
                
-                if (ItemQuantity > 0 && ItemQuantity <= QuantityInStock)
+                if (ItemQuantity > 0 && ItemQuantity <= QuantityInStock && IsAdded)
                 {
                     output = true;
                 }
@@ -60,6 +120,29 @@ namespace TulipWpfUI.ViewModels
         public void AddToCart()
         {
             AddTCart?.Invoke(this, EventArgs.Empty);
+            IsAdded = false;
+        }
+
+        public bool CanRemoveFromCart
+        {
+            get
+            {
+
+                bool output = false;
+
+                if (Total > 0)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public void RemoveFromCart()
+        {
+            RemoveFCart?.Invoke(this, EventArgs.Empty);
+            IsAdded = true;
         }
     }
 }

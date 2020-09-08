@@ -65,7 +65,27 @@ Tulip Project Steps
 
 
 
+// -------
+To create new Role manually:
+	- Go to the Entity Framework User database
+	- In a New Query :
 
+	insert into dbo.AspNetRoles (Id, [Name])
+	values (NEWID(), 'Admin')
+to give the Role a guid id
+
+
+// ------
+Formating decimal TextBox in WPF
+// to add $ dollar sign		
+<TextBox Text="{Binding RetailPrice, UpdateSourceTrigger=LostFocus,
+ValidatesOnDataErrors=True, StringFormat={}{0:C}}" Margin="10 5 10 0"/>
+ // without $ dollar sign		
+ <TextBox Text="{Binding RetailPrice, UpdateSourceTrigger=LostFocus,
+ValidatesOnDataErrors=True, StringFormat={}{0:N2}}" Margin="10 5 10 0"/> -> I choose this
+
+<TextBox Text="{Binding RetailPrice, UpdateSourceTrigger=LostFocus,
+ValidatesOnDataErrors=True, StringFormat=\{0:#.##\}}" Margin="10 5 10 0"/>
 
 
 

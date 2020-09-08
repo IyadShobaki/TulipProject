@@ -17,22 +17,27 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Image Source="/Images/login.png" Width="150" 
-               Height="80" VerticalAlignment="Top"
-                  Margin="0 20 0 0" Opacity="0.9"/>
-
+            
+            <Border VerticalAlignment="Top" Width="230" Height="140" CornerRadius="15" Margin="5">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="15" Opacity="0.4"
+                                       BlurRadius="9" Direction="-120"/>
+                </Border.Effect>
+                <Border.Background>
+                    <ImageBrush ImageSource="/Images/logo.jpg" Stretch="Uniform"/>
+                </Border.Background>
+            </Border>
             <Rectangle Width="300" Height="350" Fill="Azure"
-                   VerticalAlignment="Bottom" Margin="0 140"
-                       >
+                   VerticalAlignment="Center">
                 <Rectangle.Effect>
-                    <DropShadowEffect Direction="999" Color="#FFBBBBBB"
-                                  RenderingBias="Quality" BlurRadius="15"
-                                  ShadowDepth="7"/>
+                    <DropShadowEffect Direction="-120" Color="#FFBBBBBB"
+                                  RenderingBias="Quality" BlurRadius="9"
+                                  ShadowDepth="15" Opacity="0.4"/>
                 </Rectangle.Effect>
             </Rectangle>
         </Grid>
         <StackPanel Width="280" Height="320" 
-                    VerticalAlignment="Bottom" Margin="0 140">
+                    VerticalAlignment="Center" >
 
             <TextBlock Text="LOGIN" HorizontalAlignment="Center"
                        VerticalAlignment="Top" Margin="5" 

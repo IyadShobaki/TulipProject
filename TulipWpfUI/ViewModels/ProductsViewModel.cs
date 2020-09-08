@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
 using TulipWpfUI.Library.Models;
@@ -27,6 +28,7 @@ namespace TulipWpfUI.ViewModels
         {
             base.OnViewLoaded(view);
             await LoadProducts();
+            
         }
 
         private async Task LoadProducts()
@@ -44,6 +46,45 @@ namespace TulipWpfUI.ViewModels
                 NotifyOfPropertyChange(() => Products);
             }
         }
+
+        private int _itemQuantity;
+
+        public int ItemQuantity
+        {
+            get { return _itemQuantity; }
+            set 
+            {
+                _itemQuantity = value;
+                NotifyOfPropertyChange(() => ItemQuantity);
+                NotifyOfPropertyChange(() => CanAddToCart);
+            }
+        }
+
+
+
+
+        public bool CanAddToCart
+        {
+            get
+            {
+                bool output = false;
+
+                if (ItemQuantity > 0 )
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public void AddToCart(ProductModel product)
+        {
+
+            MessageBox.Show($"{product.Id}");
+        }
+
+
 
         public bool IsAdmin
         {

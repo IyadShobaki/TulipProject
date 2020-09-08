@@ -21,9 +21,9 @@
             <Rectangle Width="600" Height="500" Fill="Azure"
                    VerticalAlignment="Bottom" Margin="0 0 0 120">
                 <Rectangle.Effect>
-                    <DropShadowEffect Direction="999" Color="#FFBBBBBB"
-                                  RenderingBias="Quality" BlurRadius="15"
-                                  ShadowDepth="7"/>
+                    <DropShadowEffect Direction="-120" Color="#FFBBBBBB"
+                                  RenderingBias="Quality" BlurRadius="9"
+                                  ShadowDepth="15" Opacity="0.4"/>
                 </Rectangle.Effect>
             </Rectangle>
         </Grid>

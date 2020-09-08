@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TulipWpfUI.Views"
-             mc:Ignorable="d" Background="Beige" FontSize="18"
+             mc:Ignorable="d" Background="LightCyan" FontSize="18"
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,12 +14,17 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="170"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.RowSpan="2">
-            <TextBlock Text="Men Products" HorizontalAlignment="Center"
+        <Grid Grid.Column="0" Grid.RowSpan="2">
+            <TextBlock Text="Products" HorizontalAlignment="Center"
                        Margin="10 30 10 0" FontSize="20"/>
-            <Button x:Name="Admin" Content="Add Product" Height="30" Width="100"
+            <Button x:Name="test" Content="Add Product" Height="30" Width="100"
                     Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+            <Button x:Name="Admin" Background="#FF2281D1" 
+                    VerticalAlignment="Bottom" Width="130" 
+                    Height="50" Content="Add Product"
+                    Foreground="White" Margin="10" />
         </Grid>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Background="#FFF1F1F1">
             <StackPanel>
@@ -27,22 +32,28 @@
                     <ItemsControl ItemsSource="{Binding Products}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="10" Width="220" Height="350">
+                                <Border Margin="10" Width="220" Height="Auto">
                                     <StackPanel>
-                                        <Border Width="210" Height="200" CornerRadius="5" Margin="5">
+                                        <Border Width="210" Height="360" CornerRadius="5" Margin="5">
                                             <Border.Effect>
                                                 <DropShadowEffect ShadowDepth="1"/>
                                             </Border.Effect>
                                             <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ProductImage}"/>
+                                                <ImageBrush ImageSource="{Binding ProductImage}" Stretch="Uniform"/>
                                             </Border.Background>
                                         </Border>
                                         <TextBlock Margin="5" Text="{Binding RetailPrice, StringFormat={}{0:C}}" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
                                         <TextBlock Margin="5 0" Text="{Binding Description}" FontSize="13" FontWeight="Medium" HorizontalAlignment="Center"/>
-                                        <TextBox Margin="5 0 5 5"/>
+                                        <TextBlock Text="{Binding QuantityInStock, StringFormat={}{0} items left}"
+                                                   HorizontalAlignment="Center" FontSize="11" Margin="5"/>
+                                        
+                                        <StackPanel Orientation="Horizontal"  Margin="5 0 5 5">
+                                            <TextBlock Text="Quantity" Margin="5 0 0 0"/>
+                                            <TextBox x:Name="ItemQuantity" Width="130" Margin="5 0 0 0"/>
+                                        </StackPanel>
                                         <Button x:Name="AddToCart" Background="#FF2281D1" 
                                                 Content="Add To Cart"
-                                                Foreground="White" Margin="5 0 5 0"/>
+                                                Foreground="White" Margin="5"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -53,10 +64,48 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
-                   
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
+        <Grid Grid.Column="2" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Shopping Cart" HorizontalAlignment="Center"
+                       Margin="10 50 10 0" FontSize="20"/>
+            <ListBox x:Name="Cart" Grid.Row="1" VerticalAlignment="Top"
+                       Height="Auto" Width="Auto" Margin="10 15"
+                       Background="LightCyan" BorderBrush="Blue"
+                       SelectedItem="{Binding SelectedCartItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayText}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel  Grid.Row="3" Width="Auto" Margin="10 15"
+                         Height="120" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="SubTotal: " />
+                    <TextBlock x:Name="SubTotal" Text="$0.00"
+                  TextAlignment="Right"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 5" >
+                    <TextBlock Text="Tax: " />
+                    <TextBlock x:Name="Tax" Text="$0.00"
+                                HorizontalAlignment="Right"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  >
+                    <TextBlock Text="Total: " />
+                    <TextBlock x:Name="Total" Text="$0.00"
+                  TextAlignment="Right"/>
+                </StackPanel>
+               
+            </StackPanel>
 
+        
+        </Grid>
     </Grid>
 </UserControl>

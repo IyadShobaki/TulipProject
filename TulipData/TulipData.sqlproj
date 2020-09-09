@@ -76,6 +76,8 @@
     <Build Include="dbo\StoredProcedures\spProduct_GetAll.sql" />
     <Build Include="dbo\StoredProcedures\spProduct_Insert.sql" />
     <Build Include="dbo\StoredProcedures\spInventory_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\spOrder_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\spOrderDetail_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="TulipData.refactorlog" />

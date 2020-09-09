@@ -29,7 +29,7 @@
         </Grid>
 
         <StackPanel Width="500" Height="640" 
-                    VerticalAlignment="Bottom" Margin="0 0 0 30">
+                    VerticalAlignment="Bottom" Margin="0 0 0 40">
             <TextBlock Text="Insert Product Information" HorizontalAlignment="Center"
                        VerticalAlignment="Top" Margin="0 0 0 20" 
                        FontWeight="SemiBold" FontSize="24" />
@@ -52,6 +52,8 @@
             <TextBox Text="{Binding RetailPrice, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, StringFormat={}{0:N2}}" Margin="10 5 10 0"/>
             <TextBlock Text="Quantity In Stock (Available):" Margin="10 10 10 0"/>
             <TextBox x:Name="QuantityInStock" Margin="10 5 10 0"/>
+            <CheckBox x:Name="IsTaxable" Content="Is Taxable"   
+                      Margin="10 10 10 0"/>
             <CheckBox x:Name="Sex" Content="For Men"   
                       Margin="10 10 10 0"/>
             <StackPanel Orientation="Horizontal" Margin="20">

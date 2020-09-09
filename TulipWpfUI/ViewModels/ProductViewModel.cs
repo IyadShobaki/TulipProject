@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TulipWpfUI.Library.Helpers;
 using TulipWpfUI.Library.Models;
 
 namespace TulipWpfUI.ViewModels
@@ -11,10 +12,12 @@ namespace TulipWpfUI.ViewModels
     public class ProductViewModel : Screen
     {
         private ProductModel _product;
+        private readonly IConfigHelper _configHelper;
 
-        public ProductViewModel(ProductModel product)
+        public ProductViewModel(ProductModel product, IConfigHelper configHelper)
         {
             _product = product;
+            _configHelper = configHelper;
         }
 
         public int Id => _product.Id;
@@ -23,6 +26,7 @@ namespace TulipWpfUI.ViewModels
         public string ProductImage => _product.ProductImage;
         public decimal RetailPrice => _product.RetailPrice;
         public int QuantityInStock => _product.QuantityInStock;
+        public bool IsTaxable => _product.IsTaxable;
         public bool Sex => _product.Sex;
 
         private int _itemQuantity = 1;
@@ -38,6 +42,19 @@ namespace TulipWpfUI.ViewModels
 
             }
         }
+
+        public string DisplayTaxable
+        {
+            get
+            {
+                if (IsTaxable)
+                {
+                    return "Taxable";
+                }
+                return "Tax-Free";
+            }
+        }
+
 
         public decimal SubTotal
         {
@@ -60,14 +77,18 @@ namespace TulipWpfUI.ViewModels
         {
             get
             {
-                return CalculateTax();
+                if (IsTaxable)
+                {
+                    return CalculateTax();
+                }
+                return 0;
             }
         }
 
         private decimal CalculateTax()
         {
-            //decimal taxRate = _configHelper.GetTaxRate() / 100;  TODO
-            decimal taxRate = (decimal)8.75 / 100;
+            
+            decimal taxRate = _configHelper.GetTaxRate() / 100;
 
             decimal taxAmount = RetailPrice * ItemQuantity * taxRate;
 
@@ -98,6 +119,7 @@ namespace TulipWpfUI.ViewModels
                 _isAdded = value;
                 NotifyOfPropertyChange(() => IsAdded);
                 NotifyOfPropertyChange(() => CanAddToCart);
+                NotifyOfPropertyChange(() => CanRemoveFromCart);
             }
         }
 
@@ -130,7 +152,7 @@ namespace TulipWpfUI.ViewModels
 
                 bool output = false;
 
-                if (Total > 0)
+                if (IsAdded == false)
                 {
                     output = true;
                 }

@@ -3,7 +3,7 @@ AS
 begin
 	set nocount on;
 
-	select [Id], [ProductName], [Description], [ProductImage], [RetailPrice], [QuantityInStock]
+	select [Id], [ProductName], [Description], [ProductImage], [RetailPrice], [QuantityInStock], [IsTaxable], [Sex]
 	from dbo.Product
 	order by ProductName;
 

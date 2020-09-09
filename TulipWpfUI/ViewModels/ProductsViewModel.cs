@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
+using TulipWpfUI.Library.Helpers;
 using TulipWpfUI.Library.Models;
 
 namespace TulipWpfUI.ViewModels
@@ -16,22 +17,37 @@ namespace TulipWpfUI.ViewModels
     {
         private IProductEndPoint _productEndPoint;
         private readonly IEventAggregator _events;
+        private readonly ILoggedInUserModel _loggedInUserModel;
+        private readonly IConfigHelper _configHelper;
 
-        public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events)
+        public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events,
+            ILoggedInUserModel loggedInUserModel, IConfigHelper configHelper)
         {
             _productEndPoint = productEndPoint;
             _events = events;
+            _loggedInUserModel = loggedInUserModel;
+            _configHelper = configHelper;
         }
-
+        
         protected override async void OnViewLoaded(object view)
         {
-            base.OnViewLoaded(view);
-            await LoadProducts();
             
+            base.OnViewLoaded(view);
+            if (Products.Count > 0)
+            {
+
+            }
+            else
+            {
+                await LoadProducts();
+            }
+            
+
         }
 
         private async Task LoadProducts()
         {
+            
             var productList = await _productEndPoint.GetAll();
             Products.AddRange(productList.Select(x => CreateProductViewModel(x)));
         }
@@ -39,7 +55,7 @@ namespace TulipWpfUI.ViewModels
         private ProductViewModel CreateProductViewModel(ProductModel product)
         {
          
-            var productViewModel =  new ProductViewModel(product);
+            var productViewModel =  new ProductViewModel(product, _configHelper);
             productViewModel.AddTCart += OnProductAdd;
             productViewModel.RemoveFCart += OnProductRemove;
             return productViewModel;
@@ -50,9 +66,10 @@ namespace TulipWpfUI.ViewModels
             var productToAdd = (ProductViewModel)sender;
 
             Cart.Remove(productToAdd);
-            NotifyOfPropertyChange(() => SubTotal);
-            NotifyOfPropertyChange(() => Tax);
-            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => TotalSubTotal);
+            NotifyOfPropertyChange(() => TotalTax);
+            NotifyOfPropertyChange(() => TotalTotal);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         private void OnProductAdd(object sender, EventArgs e)
@@ -60,9 +77,10 @@ namespace TulipWpfUI.ViewModels
             var productToAdd = (ProductViewModel)sender;
 
             Cart.Add(productToAdd);
-            NotifyOfPropertyChange(() => SubTotal);
-            NotifyOfPropertyChange(() => Tax);
-            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => TotalSubTotal);
+            NotifyOfPropertyChange(() => TotalTax);
+            NotifyOfPropertyChange(() => TotalTotal);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }  
 
         
@@ -81,15 +99,15 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
-        public string SubTotal
+        public string TotalSubTotal
         {
             get
             {
-                return CalculateSubTotal().ToString("C");
+                return CalculateTotalSubTotal().ToString("C");
             }
         }
 
-        private decimal CalculateSubTotal()
+        private decimal CalculateTotalSubTotal()
         {
             decimal subTotal = 0;
 
@@ -100,16 +118,16 @@ namespace TulipWpfUI.ViewModels
 
             return subTotal;
         }
-        public string Tax
+        public string TotalTax
         {
             get
             {
-                return CalculateTax().ToString("C");
+                return CalculateTotalTax().ToString("C");
             }
           
         }
 
-        private decimal CalculateTax()
+        private decimal CalculateTotalTax()
         {
             decimal taxAmount = 0;
             foreach (var item in Cart)
@@ -120,19 +138,37 @@ namespace TulipWpfUI.ViewModels
             return taxAmount;
         }
 
-        public string Total
+        public string TotalTotal
         {
             get
             {
-                decimal total = CalculateSubTotal() + CalculateTax();
+                decimal total = CalculateTotalSubTotal() + CalculateTotalTax();
 
                 return total.ToString("C");
             }
         }
 
 
+        public bool CanCheckOut
+        {
+            get
+            {
+                bool output = false;
 
+                if (Cart.Count > 0)
+                {
+                    output = true;
+                }
 
+                return output;
+            }
+        }
+
+        public void CheckOut()
+        {     
+            
+           
+        }
 
         public bool IsAdmin
         {
@@ -150,7 +186,8 @@ namespace TulipWpfUI.ViewModels
         }
 
         public void Admin()
-        {
+        { 
+            
             _events.PublishOnUIThread(new InsertProductsEvent());
         }
 

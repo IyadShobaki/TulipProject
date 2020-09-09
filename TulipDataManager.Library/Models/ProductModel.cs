@@ -14,6 +14,7 @@ namespace TulipDataManager.Library.Models
         public string ProductImage { get; set; }
         public decimal RetailPrice { get; set; }
         public int QuantityInStock { get; set; }
+        public bool IsTaxable { get; set; }
         public bool Sex { get; set; }
     }
 }

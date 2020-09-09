@@ -57,6 +57,7 @@ namespace TulipDataManager.Library.Internal.DataAccess
                 p.Add("@ProductImage", product.ProductImage);
                 p.Add("@RetailPrice", product.RetailPrice);
                 p.Add("@QuantityInStock", product.QuantityInStock);
+                p.Add("@IsTaxable", product.IsTaxable);
                 p.Add("@Sex", product.Sex);
                 p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 

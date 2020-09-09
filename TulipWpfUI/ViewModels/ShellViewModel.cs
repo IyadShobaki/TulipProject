@@ -14,10 +14,10 @@ namespace TulipWpfUI.ViewModels
        
         private IEventAggregator _events;
         private ProductsViewModel _productsVM;
-        private SimpleContainer _container;
+        //private SimpleContainer _container; using IoC instead from Caliburn.Micro
 
         public ShellViewModel( IEventAggregator events,
-            ProductsViewModel productsVM, SimpleContainer container)
+            ProductsViewModel productsVM)
         {
     
 
@@ -25,8 +25,9 @@ namespace TulipWpfUI.ViewModels
             _events.Subscribe(this);
 
             _productsVM = productsVM;
-            _container = container;
-            ActivateItem(_container.GetInstance<LoginViewModel>());
+            //ActivateItem(_container.GetInstance<LoginViewModel>());
+            // Simpler way 
+            ActivateItem(IoC.Get<LoginViewModel>());
         }
 
         public void Handle(LogOnEvent message)
@@ -36,17 +37,17 @@ namespace TulipWpfUI.ViewModels
 
         public void Handle(RegisterEvent message)
         {
-            ActivateItem(_container.GetInstance<RegisterViewModel>());
+            ActivateItem(IoC.Get<RegisterViewModel>());
         }
 
         public void Handle(LogInEvent message)
         {
-            ActivateItem(_container.GetInstance<LoginViewModel>());
+            ActivateItem(IoC.Get<LoginViewModel>());
         }
 
         public void Handle(InsertProductsEvent message)
         {
-            ActivateItem(_container.GetInstance<InsertProductsViewModel>());
+            ActivateItem(IoC.Get<InsertProductsViewModel>());
         }
     }
 }

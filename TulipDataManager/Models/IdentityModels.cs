@@ -21,7 +21,7 @@ namespace TulipDataManager.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("TulipEFData", throwIfV1Schema: false)
         {
         }
         

@@ -12,11 +12,21 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class ProductController : ApiController
     {
+        [HttpGet]
         public List<ProductModel> Get()
         {
             ProductData data = new ProductData();
             return data.GetProducts();
 
+        }
+
+        [HttpPost]
+        [Route("api/UpdateProductQuantity")]
+        //public void PutProduct(UpdatedQtyProductModel updatedQtyProduct)
+        public void PutProduct(UpdatedQtyProductModel updatedQtyProduct)
+        {
+            ProductData data = new ProductData();
+            data.UpdateProductQuantityInStock(updatedQtyProduct);
         }
 
         [Authorize(Roles = "Admin")]

@@ -65,6 +65,21 @@ namespace TulipWpfUI.Library.Api
                 }
             }
         }
+
+        public async Task UpdateProductQuantity(UpdatedQtyProductModel updatedQtyProduct)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/UpdateProductQuantity", updatedQtyProduct))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
         
     }
 }

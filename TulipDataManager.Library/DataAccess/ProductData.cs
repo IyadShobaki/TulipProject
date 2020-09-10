@@ -33,5 +33,12 @@ namespace TulipDataManager.Library.DataAccess
             sql.SaveData("dbo.spInventory_Insert", inventory, "TulipData");
 
         }
+
+        public void UpdateProductQuantityInStock(UpdatedQtyProductModel updatedQtyProduct)
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+            sql.SaveData("dbo.spProduct_UpdateQuantity", updatedQtyProduct, "TulipData");
+
+        }
     }
 }

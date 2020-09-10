@@ -15,7 +15,7 @@ namespace TulipWpfUI.ViewModels
 {
     public class ProductsViewModel : Screen
     {
-        private IProductEndPoint _productEndPoint;
+        private readonly IProductEndPoint _productEndPoint;
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _loggedInUserModel;
         private readonly IConfigHelper _configHelper;
@@ -192,14 +192,34 @@ namespace TulipWpfUI.ViewModels
 
                     await _orderEndPoint.PostOrderDetailInfo(orderDetailModel);
 
+                    UpdatedQtyProductModel updatedQtyProduct = new UpdatedQtyProductModel();
+                    updatedQtyProduct.Id = item.Id;
+                    updatedQtyProduct.QuantityInStock = item.QuantityInStock - item.ItemQuantity;
+
+                    await _productEndPoint.UpdateProductQuantity(updatedQtyProduct);
+
                 }
-                MessageBox.Show($@"Your order is in the way\n{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
-             
+
+
+                MessageBox.Show($@"Your order is in the way{Environment.NewLine}{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
+                await ResetCart();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private async Task ResetCart()
+        {
+            Products.Clear();
+            Cart.Clear();
+            NotifyOfPropertyChange(() => Cart);
+            NotifyOfPropertyChange(() => TotalSubTotal);
+            NotifyOfPropertyChange(() => TotalTax);
+            NotifyOfPropertyChange(() => TotalTotal);
+            await LoadProducts();
+
         }
 
         public string LoggedInUser

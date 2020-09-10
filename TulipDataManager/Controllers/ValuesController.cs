@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using TulipDataManager.Models;
 
 namespace TulipDataManager.Controllers
 {
@@ -16,31 +17,28 @@ namespace TulipDataManager.Controllers
         {
             // Using Postman to display the user id
             string userId = RequestContext.Principal.Identity.GetUserId();
+            //var roles = new Dictionary<string, string>();
 
+            //using (var context = new ApplicationDbContext())
+            //{
+                
+            //    roles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
+                
+            //}
+
+            //string result = "Not Admin";
+
+            //if (roles.Keys.Contains(userId))
+            //{
+            //    result = "Admin";
+            //}
+        
+          
+          
             //return new string[] { "value1", "value2", userId };
             return new string[] {  userId };
          
         }
 
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
     }
 }

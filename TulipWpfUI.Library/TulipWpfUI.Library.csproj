@@ -50,7 +50,9 @@
   <ItemGroup>
     <Compile Include="Api\APIHelper.cs" />
     <Compile Include="Api\IAPIHelper.cs" />
+    <Compile Include="Api\IOrderEndPoint.cs" />
     <Compile Include="Api\IProductEndPoint.cs" />
+    <Compile Include="Api\OrderEndPoint.cs" />
     <Compile Include="Api\ProductEndPoint.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\IConfigHelper.cs" />

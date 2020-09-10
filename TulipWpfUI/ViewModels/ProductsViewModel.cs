@@ -19,19 +19,22 @@ namespace TulipWpfUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _loggedInUserModel;
         private readonly IConfigHelper _configHelper;
+        private readonly IOrderEndPoint _orderEndPoint;
 
         public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events,
-            ILoggedInUserModel loggedInUserModel, IConfigHelper configHelper)
+            ILoggedInUserModel loggedInUserModel, IConfigHelper configHelper,
+            IOrderEndPoint orderEndPoint)
         {
             _productEndPoint = productEndPoint;
             _events = events;
             _loggedInUserModel = loggedInUserModel;
             _configHelper = configHelper;
+            _orderEndPoint = orderEndPoint;
         }
-        
+
         protected override async void OnViewLoaded(object view)
         {
-            
+
             base.OnViewLoaded(view);
             if (Products.Count > 0)
             {
@@ -41,21 +44,21 @@ namespace TulipWpfUI.ViewModels
             {
                 await LoadProducts();
             }
-            
+
 
         }
 
         private async Task LoadProducts()
         {
-            
+
             var productList = await _productEndPoint.GetAll();
             Products.AddRange(productList.Select(x => CreateProductViewModel(x)));
         }
 
         private ProductViewModel CreateProductViewModel(ProductModel product)
         {
-         
-            var productViewModel =  new ProductViewModel(product, _configHelper);
+
+            var productViewModel = new ProductViewModel(product, _configHelper);
             productViewModel.AddTCart += OnProductAdd;
             productViewModel.RemoveFCart += OnProductRemove;
             return productViewModel;
@@ -81,9 +84,9 @@ namespace TulipWpfUI.ViewModels
             NotifyOfPropertyChange(() => TotalTax);
             NotifyOfPropertyChange(() => TotalTotal);
             NotifyOfPropertyChange(() => CanCheckOut);
-        }  
+        }
 
-        
+
 
         public BindableCollection<ProductViewModel> Products { get; } = new BindableCollection<ProductViewModel>();
 
@@ -99,11 +102,11 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
-        public string TotalSubTotal
+        public decimal TotalSubTotal
         {
             get
             {
-                return CalculateTotalSubTotal().ToString("C");
+                return CalculateTotalSubTotal();
             }
         }
 
@@ -118,13 +121,13 @@ namespace TulipWpfUI.ViewModels
 
             return subTotal;
         }
-        public string TotalTax
+        public decimal TotalTax
         {
             get
             {
-                return CalculateTotalTax().ToString("C");
+                return CalculateTotalTax();
             }
-          
+
         }
 
         private decimal CalculateTotalTax()
@@ -138,13 +141,13 @@ namespace TulipWpfUI.ViewModels
             return taxAmount;
         }
 
-        public string TotalTotal
+        public decimal TotalTotal
         {
             get
             {
-                decimal total = CalculateTotalSubTotal() + CalculateTotalTax();
+                decimal total = TotalSubTotal + TotalTax;
 
-                return total.ToString("C");
+                return total;
             }
         }
 
@@ -164,10 +167,47 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
-        public void CheckOut()
-        {     
-            
-           
+        public async Task CheckOut()
+        {
+            try
+            {
+
+                OrderModel orderModel = new OrderModel();
+                orderModel.UserId = _loggedInUserModel.Id;
+                orderModel.SubTotal = TotalSubTotal;
+                orderModel.Tax = TotalTax;
+                orderModel.Total = TotalTotal;
+
+
+                int orderId = await _orderEndPoint.PostOrderInfo(orderModel);
+
+                foreach (var item in Cart)
+                {
+                    OrderDetailModel orderDetailModel = new OrderDetailModel();
+                    orderDetailModel.OrderId = orderId;
+                    orderDetailModel.ProductId = item.Id;
+                    orderDetailModel.Quantity = item.ItemQuantity;
+                    orderDetailModel.PurchasePrice = item.Total;
+                    orderDetailModel.Tax = item.Tax;
+
+                    await _orderEndPoint.PostOrderDetailInfo(orderDetailModel);
+
+                }
+                MessageBox.Show($@"Your order is in the way\n{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
+             
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public string LoggedInUser
+        {
+            get
+            {
+                return _loggedInUserModel.FirstName;
+            }
         }
 
         public bool IsAdmin
@@ -186,8 +226,8 @@ namespace TulipWpfUI.ViewModels
         }
 
         public void Admin()
-        { 
-            
+        {
+
             _events.PublishOnUIThread(new InsertProductsEvent());
         }
 

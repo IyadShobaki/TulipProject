@@ -16,7 +16,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="220"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Grid.RowSpan="2">
+        <TextBlock Grid.Column="1" Grid.Row="0"
+                   Text="{Binding LoggedInUser, StringFormat='{} Hello, {0}!'}"
+                   TextAlignment="Center"/>
+        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
             <TextBlock Text="Products" HorizontalAlignment="Center"
                        Margin="10 50 10 0" FontSize="20"/>
             <Button x:Name="test" Content="Add Product" Height="30" Width="100"
@@ -53,7 +56,7 @@
                            FontSize="12" Margin="0 0 5 0" />
                 <TextBlock Text="Description" Margin="10 0 10 0" 
                            FontSize="12"/>
-                <TextBlock Text="SubTotal" 
+                <TextBlock Text="Total" 
                            FontSize="12" HorizontalAlignment="Right"
                            />
             </StackPanel>
@@ -66,7 +69,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding ItemQuantity}"/>
                             <TextBlock Text="{Binding ProductName}" Margin="10 0 20 0"/>
-                            <TextBlock Text="{Binding SubTotal, StringFormat={}{0:C}}"
+                            <TextBlock Text="{Binding Total, StringFormat={}{0:C}}"
                                       TextAlignment="Right"/>
                         </StackPanel>
                     </DataTemplate>
@@ -75,17 +78,16 @@
             <StackPanel Orientation="Vertical" Grid.Row="3" Width="200">
                 <StackPanel Orientation="Horizontal" Margin="0 5" >
                     <TextBlock Text="Total SubTotal: " Margin="0 0 15 0"/>
-                    <TextBlock x:Name="TotalSubTotal" Text="$0.00"
-                                />
+                    <TextBlock Text="{Binding TotalSubTotal, StringFormat={}{0:C}}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0 5" >
                     <TextBlock Text="Total Tax: " Margin="0 0 59 0"/>
-                    <TextBlock x:Name="TotalTax" Text="$0.00"
+                    <TextBlock Text="{Binding TotalTax, StringFormat={}{0:C}}"
                                 TextAlignment="Right"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Width="200" >
                     <TextBlock Text="Total Amount: " Margin="0 0 20 0"/>
-                    <TextBlock x:Name="TotalTotal" Text="$0.00" 
+                    <TextBlock Text="{Binding TotalTotal, StringFormat={}{0:C}}"
                                 TextAlignment="Right"/>
                 </StackPanel>
                 <StackPanel Margin="10">
@@ -94,7 +96,7 @@
                                                 Foreground="White" Margin="5"/>
                 </StackPanel>
             </StackPanel>
-            
+
         </Grid>
     </Grid>
 </UserControl>

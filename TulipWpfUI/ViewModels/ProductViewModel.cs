@@ -99,7 +99,8 @@ namespace TulipWpfUI.ViewModels
         {
             get
             {
-                decimal total = CalculateSubTotal() + CalculateTax();
+                //decimal total = CalculateSubTotal() + CalculateTax();
+                decimal total = SubTotal + Tax;
 
                 return total;
             }

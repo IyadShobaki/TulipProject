@@ -80,7 +80,7 @@ namespace TulipWpfUI.Library.Api
                     _loggedInUser.FirstName = result.FirstName;
                     _loggedInUser.LastName = result.LastName;
                     _loggedInUser.Id = result.Id;
-                    _loggedInUser.Id = token;
+                    _loggedInUser.Token = token;
 
                 }
                 else

@@ -36,23 +36,16 @@ namespace TulipWpfUI.ViewModels
         {
 
             base.OnViewLoaded(view);
-            if (Products.Count > 0)
-            {
-
-            }
-            else
-            {
-                await LoadProducts();
-            }
-
-
+            await LoadProducts();
+ 
         }
 
         private async Task LoadProducts()
         {
 
             var productList = await _productEndPoint.GetAll();
-            Products.AddRange(productList.Select(x => CreateProductViewModel(x)));
+            Products = new BindableCollection<ProductViewModel>(productList.Select(x => CreateProductViewModel(x)));
+            NotifyOfPropertyChange(() => Products);
         }
 
         private ProductViewModel CreateProductViewModel(ProductModel product)
@@ -88,7 +81,7 @@ namespace TulipWpfUI.ViewModels
 
 
 
-        public BindableCollection<ProductViewModel> Products { get; } = new BindableCollection<ProductViewModel>();
+        public BindableCollection<ProductViewModel> Products { get; set; } = new BindableCollection<ProductViewModel>();
 
         private BindingList<ProductViewModel> _cart = new BindingList<ProductViewModel>();
 
@@ -99,6 +92,10 @@ namespace TulipWpfUI.ViewModels
             {
                 _cart = value;
                 NotifyOfPropertyChange(() => Cart);
+                NotifyOfPropertyChange(() => TotalSubTotal);
+                NotifyOfPropertyChange(() => TotalTax);
+                NotifyOfPropertyChange(() => TotalTotal);
+                NotifyOfPropertyChange(() => CanCheckOut);
             }
         }
 
@@ -212,13 +209,10 @@ namespace TulipWpfUI.ViewModels
 
         private async Task ResetCart()
         {
-            Products.Clear();
-            Cart.Clear();
-            NotifyOfPropertyChange(() => Cart);
-            NotifyOfPropertyChange(() => TotalSubTotal);
-            NotifyOfPropertyChange(() => TotalTax);
-            NotifyOfPropertyChange(() => TotalTotal);
             await LoadProducts();
+            Cart = new BindingList<ProductViewModel>();
+            NotifyOfPropertyChange(() => Cart);
+         
 
         }
 

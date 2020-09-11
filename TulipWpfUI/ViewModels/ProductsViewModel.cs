@@ -175,8 +175,9 @@ namespace TulipWpfUI.ViewModels
                 orderModel.Tax = TotalTax;
                 orderModel.Total = TotalTotal;
 
-
                 int orderId = await _orderEndPoint.PostOrderInfo(orderModel);
+
+                List<OrderDetailModel> orderDetailModels = new List<OrderDetailModel>();
 
                 foreach (var item in Cart)
                 {
@@ -187,19 +188,34 @@ namespace TulipWpfUI.ViewModels
                     orderDetailModel.PurchasePrice = item.SubTotal;
                     orderDetailModel.Tax = item.Tax;
 
-                    await _orderEndPoint.PostOrderDetailInfo(orderDetailModel);
-
-                    UpdatedQtyProductModel updatedQtyProduct = new UpdatedQtyProductModel();
-                    updatedQtyProduct.Id = item.Id;
-                    updatedQtyProduct.QuantityInStock = item.QuantityInStock - item.ItemQuantity;
-
-                    await _productEndPoint.UpdateProductQuantity(updatedQtyProduct);
-
+                    orderDetailModels.Add(orderDetailModel);
                 }
+                if (await _orderEndPoint.PostOrderDetailsInfo(orderDetailModels))
+                {
+
+                    foreach (var item in Cart)
+                    {
+                        UpdatedQtyProductModel updatedQtyProduct = new UpdatedQtyProductModel();
+                        updatedQtyProduct.Id = item.Id;
+                        updatedQtyProduct.QuantityInStock = item.QuantityInStock - item.ItemQuantity;
+
+                        await _productEndPoint.UpdateProductQuantity(updatedQtyProduct);
+                    }
 
 
-                MessageBox.Show($@"Your order is in the way{Environment.NewLine}{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
-                await ResetCart();
+                    MessageBox.Show($@"Your order is in the way{Environment.NewLine}{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
+                    await ResetCart();
+                }
+                else
+                {
+                    await _orderEndPoint.DeleteOrder(orderId);
+                    MessageBox.Show("Something went wrong! Please try again later");
+                }
+                // For testing
+                // Comment the following line inside OrderDetail table and publish
+                // CONSTRAINT [FK_OrderDetail_Order] FOREIGN KEY (OrderId) REFERENCES [Order](Id)
+                // await _orderEndPoint.DeleteOrder(orderId); // Worked well
+
             }
             catch (Exception ex)
             {

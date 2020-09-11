@@ -34,9 +34,40 @@ namespace TulipWpfUI.Library.Api
             }
         }
 
-        public async Task PostOrderDetailInfo(OrderDetailModel orderDetail)
+        //public async Task PostOrderDetailInfos(OrderDetailModel orderDetail)
+        //{
+        //    using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/OrderDetails", orderDetail))
+        //    {
+        //        if (response.IsSuccessStatusCode)
+        //        {
+
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(response.ReasonPhrase);
+        //        }
+        //    }
+        //}
+
+        public async Task<bool> PostOrderDetailsInfo(List<OrderDetailModel> orderDetailModels)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/OrderDetail", orderDetail))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/OrderDetails", orderDetailModels))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                    //throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+        
+        public async Task DeleteOrder(int orderId)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/DeleteOrder", orderId))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -48,5 +79,6 @@ namespace TulipWpfUI.Library.Api
                 }
             }
         }
+
     }
 }

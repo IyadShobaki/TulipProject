@@ -22,7 +22,6 @@ namespace TulipDataManager.Controllers
 
         [HttpPost]
         [Route("api/UpdateProductQuantity")]
-        //public void PutProduct(UpdatedQtyProductModel updatedQtyProduct)
         public void PutProduct(UpdatedQtyProductModel updatedQtyProduct)
         {
             ProductData data = new ProductData();

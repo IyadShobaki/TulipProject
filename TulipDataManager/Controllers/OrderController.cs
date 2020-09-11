@@ -21,12 +21,33 @@ namespace TulipDataManager.Controllers
 
         }
 
+        //[HttpPost]
+        //[Route("api/OrderDetail")]
+        //public void Post(OrderDetailModel orderDetail)
+        //{
+        //    OrderData data = new OrderData();
+        //    data.InsertOrderDetail(orderDetail);
+        //}
+
         [HttpPost]
-        [Route("api/OrderDetail")]
-        public void PostOrderDetail(OrderDetailModel orderDetail)
+        [Route("api/OrderDetails")]
+        public void Post(List<OrderDetailModel> orderDetailModels)
         {
+
             OrderData data = new OrderData();
-            data.InsertOrderDetail(orderDetail);
+            data.InsertOrderDetails(orderDetailModels);
+
+        }
+
+        [HttpPost]
+        [Route("api/DeleteOrder")]
+        public void Post(object orderId)
+        {
+            string _id = orderId.ToString();
+            int id = int.Parse(_id);
+            OrderData data = new OrderData();
+            data.DeleteOrderById(id);
+
         }
     }
 }

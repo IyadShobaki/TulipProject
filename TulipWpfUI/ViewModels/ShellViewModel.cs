@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using TulipWpfUI.EventModels;
+using TulipWpfUI.Library.Api;
 using TulipWpfUI.Library.Models;
 
 namespace TulipWpfUI.ViewModels
@@ -16,11 +17,12 @@ namespace TulipWpfUI.ViewModels
         private IEventAggregator _events;
         private ProductsViewModel _productsVM;
         private readonly ILoggedInUserModel _user;
+        private readonly IAPIHelper _apiHelper;
 
         //private SimpleContainer _container; using IoC instead from Caliburn.Micro
 
         public ShellViewModel( IEventAggregator events,
-            ProductsViewModel productsVM, ILoggedInUserModel user)
+            ProductsViewModel productsVM, ILoggedInUserModel user, IAPIHelper apiHelper)
         {
     
 
@@ -29,6 +31,7 @@ namespace TulipWpfUI.ViewModels
 
             _productsVM = productsVM;
             _user = user;
+            _apiHelper = apiHelper;
             //ActivateItem(_container.GetInstance<LoginViewModel>());
             // Simpler way 
             ActivateItem(IoC.Get<LoginViewModel>());
@@ -62,7 +65,8 @@ namespace TulipWpfUI.ViewModels
 
         public void LogOut()
         {
-            _user.LogOffUser();
+            _user.ResetUserModel();
+            _apiHelper.LogOffUser();
             ActivateItem(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
         }

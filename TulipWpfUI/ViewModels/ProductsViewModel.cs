@@ -187,7 +187,7 @@ namespace TulipWpfUI.ViewModels
                     orderDetailModel.OrderId = orderId;
                     orderDetailModel.ProductId = item.Id;
                     orderDetailModel.Quantity = item.ItemQuantity;
-                    orderDetailModel.PurchasePrice = item.Total;
+                    orderDetailModel.PurchasePrice = item.SubTotal;
                     orderDetailModel.Tax = item.Tax;
 
                     await _orderEndPoint.PostOrderDetailInfo(orderDetailModel);

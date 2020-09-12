@@ -34,10 +34,12 @@ namespace TulipDataManager.Library.DataAccess
 
         }
 
-        public void UpdateProductQuantityInStock(UpdatedQtyProductModel updatedQtyProduct)
+        //public void UpdateProductQuantityInStock(UpdatedQtyProductModel updatedQtyProduct)
+        public void UpdateProductQuantityInStock(int productId, int newQuantity)
         {
             SqlDataAccess sql = new SqlDataAccess();
-            sql.SaveData("dbo.spProduct_UpdateQuantity", updatedQtyProduct, "TulipData");
+            sql.SaveData<dynamic>("dbo.spProduct_UpdateQuantity",
+                new { Id = productId, @QuantityInStock = newQuantity }, "TulipData");
 
         }
     }

@@ -195,11 +195,13 @@ namespace TulipWpfUI.ViewModels
 
                     foreach (var item in Cart)
                     {
-                        UpdatedQtyProductModel updatedQtyProduct = new UpdatedQtyProductModel();
-                        updatedQtyProduct.Id = item.Id;
-                        updatedQtyProduct.QuantityInStock = item.QuantityInStock - item.ItemQuantity;
+                        // change the following and use dynamic parameters
+                        // UpdatedQtyProductModel updatedQtyProduct = new UpdatedQtyProductModel();
+                        // updatedQtyProduct.Id = item.Id;
+                        // updatedQtyProduct.QuantityInStock = item.QuantityInStock - item.ItemQuantity;
 
-                        await _productEndPoint.UpdateProductQuantity(updatedQtyProduct);
+                        //await _productEndPoint.UpdateProductQuantity(updatedQtyProduct);
+                        await _productEndPoint.UpdateProductQuantity(item.Id, (item.QuantityInStock - item.ItemQuantity));
                     }
 
 

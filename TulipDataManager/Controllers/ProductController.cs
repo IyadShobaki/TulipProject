@@ -22,10 +22,13 @@ namespace TulipDataManager.Controllers
 
         [HttpPost]
         [Route("api/UpdateProductQuantity")]
-        public void PutProduct(UpdatedQtyProductModel updatedQtyProduct)
+        //public void PutProduct(UpdatedQtyProductModel updatedQtyProduct)
+        public void PutProduct(int[] product)
         {
+            int productId = product[0];
+            int newQuantity = product[1];
             ProductData data = new ProductData();
-            data.UpdateProductQuantityInStock(updatedQtyProduct);
+            data.UpdateProductQuantityInStock(productId, newQuantity);
         }
 
         [Authorize(Roles = "Admin")]

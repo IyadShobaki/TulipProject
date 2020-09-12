@@ -66,9 +66,11 @@ namespace TulipWpfUI.Library.Api
             }
         }
 
-        public async Task UpdateProductQuantity(UpdatedQtyProductModel updatedQtyProduct)
+        //public async Task UpdateProductQuantity(UpdatedQtyProductModel updatedQtyProduct)
+        public async Task UpdateProductQuantity(int productId, int newQuantity)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/UpdateProductQuantity", updatedQtyProduct))
+            int[] product = { productId, newQuantity };
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/UpdateProductQuantity", product))
             {
                 if (response.IsSuccessStatusCode)
                 {

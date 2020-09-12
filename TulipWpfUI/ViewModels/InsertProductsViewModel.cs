@@ -174,6 +174,7 @@ namespace TulipWpfUI.ViewModels
         {
             try
             {
+                // TODO - Use transactions to commit the following to database
                               
                 ProductModel product = new ProductModel();
                 product.ProductName = ProductName;

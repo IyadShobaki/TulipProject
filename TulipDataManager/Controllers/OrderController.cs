@@ -49,5 +49,15 @@ namespace TulipDataManager.Controllers
             data.DeleteOrderById(id);
 
         }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/GetOrdersReport")]
+        public List<OrdersReportModel> GetOrdersReport()
+        {
+            OrderData data = new OrderData();
+            return data.GetOrdersReport();
+        }
     }
 }

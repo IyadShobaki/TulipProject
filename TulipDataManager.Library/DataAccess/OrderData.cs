@@ -58,5 +58,15 @@ namespace TulipDataManager.Library.DataAccess
             SqlDataAccess sql = new SqlDataAccess();
             sql.SaveData<dynamic>("dbo.spDeleteOrderById", new { Id = orderId } , "TulipData");
         }
+
+        public List<OrdersReportModel> GetOrdersReport()
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+
+            var output = sql.LoadData<OrdersReportModel, dynamic>("dbo.spOrder_OrdersReport",
+                new { }, "TulipData");
+
+            return output;
+        }
     }
 }

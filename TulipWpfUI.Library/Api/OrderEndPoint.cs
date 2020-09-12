@@ -80,5 +80,23 @@ namespace TulipWpfUI.Library.Api
             }
         }
 
+
+        public async Task<List<OrdersReportModel>> GetOrdersReport()
+        {
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/GetOrdersReport"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<OrdersReportModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
     }
 }

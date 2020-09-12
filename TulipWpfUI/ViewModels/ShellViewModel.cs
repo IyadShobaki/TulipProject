@@ -11,7 +11,7 @@ using TulipWpfUI.Library.Models;
 namespace TulipWpfUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<RegisterEvent>,
-        IHandle<LogInEvent>, IHandle<InsertProductsEvent>
+        IHandle<LogInEvent>, IHandle<InsertProductsEvent>, IHandle<OrdersReportEvent>
     {
        
         private IEventAggregator _events;
@@ -69,6 +69,11 @@ namespace TulipWpfUI.ViewModels
             _apiHelper.LogOffUser();
             ActivateItem(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
+        }
+
+        public void Handle(OrdersReportEvent message)
+        {
+            ActivateItem(IoC.Get<OrdersViewModel>());
         }
 
         public bool IsLoggedIn

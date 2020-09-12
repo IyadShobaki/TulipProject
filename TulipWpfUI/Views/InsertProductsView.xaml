@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TulipWpfUI.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" FontSize="18"
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
@@ -18,7 +19,7 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <Rectangle Width="600" Height="670" Fill="Azure"
+            <Rectangle Width="600" Height="728" Fill="Azure"
                    VerticalAlignment="Bottom" Margin="0 0 0 30">
                 <Rectangle.Effect>
                     <DropShadowEffect Direction="999" Color="#FFBBBBBB"
@@ -28,9 +29,9 @@
             </Rectangle>
         </Grid>
 
-        <StackPanel Width="500" Height="640" 
+        <StackPanel Width="500" Height="720" 
                     VerticalAlignment="Bottom" Margin="0 0 0 40">
-            <TextBlock Text="Insert Product Information" HorizontalAlignment="Center"
+            <TextBlock Text="Insert New Product Information" HorizontalAlignment="Center"
                        VerticalAlignment="Top" Margin="0 0 0 20" 
                        FontWeight="SemiBold" FontSize="24" />
             <TextBlock x:Name="ErrorMessage"
@@ -48,6 +49,10 @@
             <TextBox x:Name="TotalQuantity" Margin="10 5 10 0"/>
             <TextBlock Text="Purchase Price (per piece):" Margin="10 10 10 0"/>
             <TextBox Text="{Binding PurchasePrice, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, StringFormat={}{0:N2}}" Margin="10 5 10 0"/>
+            <Label Margin="10 10 10 0">Purchase Date:</Label>
+            <DatePicker x:Name="PurchaseDate" 
+                        SelectedDate="{x:Static sys:DateTime.Now}"
+                        Margin="10 5 10 0"/>
             <TextBlock Text="Retail Price:" Margin="10 10 10 0"/>
             <TextBox Text="{Binding RetailPrice, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, StringFormat={}{0:N2}}" Margin="10 5 10 0"/>
             <TextBlock Text="Quantity In Stock (Available):" Margin="10 10 10 0"/>

@@ -257,11 +257,15 @@ namespace TulipWpfUI.ViewModels
 
         }
 
-        public void Admin()
+        public void AddNewProduct()
         {
 
             _events.PublishOnUIThread(new InsertProductsEvent());
         }
+        public void OrdersReport()
+        {
 
+            _events.PublishOnUIThread(new OrdersReportEvent());
+        }
     }
 }

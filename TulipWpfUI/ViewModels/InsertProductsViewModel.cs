@@ -112,6 +112,19 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
+        private DateTime _purchaseDate = DateTime.Now;
+
+        public DateTime PurchaseDate
+        {
+            get { return _purchaseDate; }
+            set 
+            { 
+                _purchaseDate = value;
+                NotifyOfPropertyChange(() => PurchaseDate);
+                NotifyOfPropertyChange(() => CanSubmit);
+            }
+        }
+
         private int _totalQuantity;
 
         public int TotalQuantity
@@ -190,6 +203,7 @@ namespace TulipWpfUI.ViewModels
                 //inventory.ProductId = productId;
                 inventory.PurchasePrice = PurchasePrice;
                 inventory.Quantity = TotalQuantity;
+                inventory.PurchaseDate = PurchaseDate;
 
                 //await _productEndPoint.PostInventoryInfo(inventory);
                 if (await _productEndPoint.PostProductInventory(product, inventory))//using transaction

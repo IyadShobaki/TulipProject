@@ -80,6 +80,8 @@
     <Build Include="dbo\StoredProcedures\spOrderDetail_Insert.sql" />
     <Build Include="dbo\StoredProcedures\spProduct_UpdateQuantity.sql" />
     <Build Include="dbo\StoredProcedures\spDeleteOrderById.sql" />
+    <Build Include="dbo\StoredProcedures\spInventory_GetAll.sql" />
+    <Build Include="dbo\StoredProcedures\spOrder_OrdersReport.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="TulipData.refactorlog" />

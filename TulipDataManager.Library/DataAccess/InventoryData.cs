@@ -10,10 +10,10 @@ namespace TulipDataManager.Library.DataAccess
 {
     public class InventoryData
     {
-        public List<InventoryModel> GetInventory()
+        public List<InventoryDisplayModel> GetInventory()
         {
             SqlDataAccess sql = new SqlDataAccess();
-            var output = sql.LoadData<InventoryModel, dynamic>("spInventory_GetAll",
+            var output = sql.LoadData<InventoryDisplayModel, dynamic>("spInventory_GetAll",
                 new { }, "TulipData");
 
             return output;

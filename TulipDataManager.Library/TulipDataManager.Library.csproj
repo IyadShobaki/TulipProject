@@ -49,6 +49,7 @@
     <Compile Include="DataAccess\OrderData.cs" />
     <Compile Include="DataAccess\ProductData.cs" />
     <Compile Include="DataAccess\UserData.cs" />
+    <Compile Include="Models\InventoryDisplayModel.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\OrderModel.cs" />

@@ -33,6 +33,10 @@
                     Width="110" 
                     Height="50" Content="Orders Report"
                     Foreground="White" Margin="10" FontSize="13"/>
+                <Button x:Name="InventoryReport" Background="#FF2281D1" 
+                     Width="110" 
+                    Height="50" Content="Inventory Report"
+                    Foreground="White" Margin="10" FontSize="13"/>
             </StackPanel>
           
         </Grid>

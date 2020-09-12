@@ -93,12 +93,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="EventModels\DisplayInventoryEvent.cs" />
     <Compile Include="EventModels\InsertProductsEvent.cs" />
     <Compile Include="EventModels\LogInEvent.cs" />
     <Compile Include="EventModels\OrdersReportEvent.cs" />
     <Compile Include="EventModels\RegisterEvent.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="ViewModels\DisplayInventoryViewModel.cs" />
     <Compile Include="ViewModels\InsertProductsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\OrdersViewModel.cs" />
@@ -106,6 +108,9 @@
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\DisplayInventoryView.xaml.cs">
+      <DependentUpon>DisplayInventoryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\InsertProductsView.xaml.cs">
       <DependentUpon>InsertProductsView.xaml</DependentUpon>
     </Compile>
@@ -131,6 +136,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\DisplayInventoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InsertProductsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

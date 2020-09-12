@@ -267,5 +267,10 @@ namespace TulipWpfUI.ViewModels
 
             _events.PublishOnUIThread(new OrdersReportEvent());
         }
+        public void InventoryReport()
+        {
+
+            _events.PublishOnUIThread(new DisplayInventoryEvent());
+        }
     }
 }

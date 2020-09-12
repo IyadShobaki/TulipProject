@@ -33,7 +33,7 @@ namespace TulipDataManager.Library.DataAccess
                     inventory.ProductId = newProductId;
 
                     sql.SaveDataInTransaction("dbo.spInventory_Insert", inventory);
-                   
+                    sql.CommitTransaction();
                 }
                 catch
                 {

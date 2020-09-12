@@ -42,7 +42,7 @@ namespace TulipDataManager.Library.DataAccess
                         sql.SaveDataInTransaction("dbo.spOrderDetail_Insert", orderDetailModel);
                     }
 
-                    //sql.CommitTransaction(); will throw an exception - do not uncomment it
+                    sql.CommitTransaction();  // important
                 }
                 catch
                 {

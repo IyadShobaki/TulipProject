@@ -19,20 +19,46 @@ namespace TulipDataManager.Library.DataAccess
             return output;
         }
 
-        public int InsertProduct(ProductModel product)
+        public void InsertProductInventory(ProductModel product, InventoryModel inventory)
         {
-            SqlDataAccess sql = new SqlDataAccess();
-            int newProductId = sql.CreateProduct("dbo.spProduct_Insert", product, "TulipData");
+          
+            using (SqlDataAccess sql = new SqlDataAccess())
+            {
+                try
+                {
 
-            return newProductId;
+                    sql.StartTransaction("TulipData");
+                    int newProductId = sql.CreateProductTransaction("dbo.spProduct_Insert", product);
 
+                    inventory.ProductId = newProductId;
+
+                    sql.SaveDataInTransaction("dbo.spInventory_Insert", inventory);
+                   
+                }
+                catch
+                {
+                    sql.RollbackTransaction();
+                    throw;
+                }
+            }
         }
-        public void InsertInventory(InventoryModel inventory)
-        {
-            SqlDataAccess sql = new SqlDataAccess();
-            sql.SaveData("dbo.spInventory_Insert", inventory, "TulipData");
 
-        }
+        //public int InsertProduct(ProductModel product)
+        //{
+        //    SqlDataAccess sql = new SqlDataAccess();
+        //    int newProductId = sql.CreateProduct("dbo.spProduct_Insert", product, "TulipData");
+
+        //    return newProductId;
+
+        //}
+        //public void InsertInventory(InventoryModel inventory)
+        //{
+        //    SqlDataAccess sql = new SqlDataAccess();
+        //    sql.SaveData("dbo.spInventory_Insert", inventory, "TulipData");
+
+        //}
+
+
 
         //public void UpdateProductQuantityInStock(UpdatedQtyProductModel updatedQtyProduct)
         public void UpdateProductQuantityInStock(int productId, int newQuantity)

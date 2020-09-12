@@ -35,36 +35,57 @@ namespace TulipWpfUI.Library.Api
         }
 
 
-        public async Task<int> PostProductInfo(ProductModel product)
+        public async Task<bool> PostProductInventory(ProductModel product, InventoryModel inventory)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Product", product))
+            //object[] productInventory = { product, inventory };
+            List<object> productInventory = new List<object>
+            {
+                product,
+                inventory
+            };
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Product", productInventory))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsStringAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
-                    return int.Parse(result);
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
-            }
-        }
-        public async Task PostInventoryInfo(InventoryModel inventory)
-        {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Inventory", inventory))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                 
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
-            }
-        }
+        //public async Task<int> PostProductInfo(ProductModel product)
+        //{
+        //    using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Product", product))
+        //    {
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var result = await response.Content.ReadAsStringAsync();
+
+        //            return int.Parse(result);
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(response.ReasonPhrase);
+        //        }
+        //    }
+        //}
+        //public async Task PostInventoryInfo(InventoryModel inventory)
+        //{
+        //    using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Inventory", inventory))
+        //    {
+        //        if (response.IsSuccessStatusCode)
+        //        {
+
+        //        }
+        //        else
+        //        {
+        //            throw new Exception(response.ReasonPhrase);
+        //        }
+        //    }
+        //}
 
         //public async Task UpdateProductQuantity(UpdatedQtyProductModel updatedQtyProduct)
         public async Task UpdateProductQuantity(int productId, int newQuantity)
@@ -82,6 +103,6 @@ namespace TulipWpfUI.Library.Api
                 }
             }
         }
-        
+
     }
 }

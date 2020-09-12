@@ -45,29 +45,29 @@ namespace TulipDataManager.Library.Internal.DataAccess
             }
         }
 
-        public int CreateProduct(string storedProcedure, ProductModel product, string connectionStringName)
-        {
-            string connectionString = GetConnectionString(connectionStringName);
+        //public int CreateProduct(string storedProcedure, ProductModel product, string connectionStringName)
+        //{
+        //    string connectionString = GetConnectionString(connectionStringName);
 
-            using (IDbConnection connection = new SqlConnection(connectionString))
-            {
-                var p = new DynamicParameters();
-                p.Add("@ProductName", product.ProductName);
-                p.Add("@Description", product.Description);
-                p.Add("@ProductImage", product.ProductImage);
-                p.Add("@RetailPrice", product.RetailPrice);
-                p.Add("@QuantityInStock", product.QuantityInStock);
-                p.Add("@IsTaxable", product.IsTaxable);
-                p.Add("@Sex", product.Sex);
-                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+        //    using (IDbConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        var p = new DynamicParameters();
+        //        p.Add("@ProductName", product.ProductName);
+        //        p.Add("@Description", product.Description);
+        //        p.Add("@ProductImage", product.ProductImage);
+        //        p.Add("@RetailPrice", product.RetailPrice);
+        //        p.Add("@QuantityInStock", product.QuantityInStock);
+        //        p.Add("@IsTaxable", product.IsTaxable);
+        //        p.Add("@Sex", product.Sex);
+        //        p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                connection.Execute(storedProcedure,
-                        p, commandType: CommandType.StoredProcedure);
+        //        connection.Execute(storedProcedure,
+        //                p, commandType: CommandType.StoredProcedure);
 
-                int newId = p.Get<int>("@id");
-                return newId;
-            }
-        }
+        //        int newId = p.Get<int>("@id");
+        //        return newId;
+        //    }
+        //}
 
         public int CreateOrder(string storedProcedure, OrderModel order, string connectionStringName)
         {
@@ -89,6 +89,28 @@ namespace TulipDataManager.Library.Internal.DataAccess
                 return newId;
             }
         }
+
+        public int CreateProductTransaction(string storedProcedure, ProductModel product)
+        {
+            
+                var p = new DynamicParameters();
+                p.Add("@ProductName", product.ProductName);
+                p.Add("@Description", product.Description);
+                p.Add("@ProductImage", product.ProductImage);
+                p.Add("@RetailPrice", product.RetailPrice);
+                p.Add("@QuantityInStock", product.QuantityInStock);
+                p.Add("@IsTaxable", product.IsTaxable);
+                p.Add("@Sex", product.Sex);
+                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                _connection.Execute(storedProcedure,
+                        p, commandType: CommandType.StoredProcedure, transaction: _transaction);
+
+                int newId = p.Get<int>("@id");
+                return newId;
+            
+        }
+
 
 
         private IDbConnection _connection;

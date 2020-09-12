@@ -174,7 +174,7 @@ namespace TulipWpfUI.ViewModels
         {
             try
             {
-                // TODO - Use transactions to commit the following to database
+                // Use transactions to commit the following to database
                               
                 ProductModel product = new ProductModel();
                 product.ProductName = ProductName;
@@ -184,18 +184,27 @@ namespace TulipWpfUI.ViewModels
                 product.QuantityInStock = QuantityInStock;
                 product.Sex = Sex;
 
-                int productId = await _productEndPoint.PostProductInfo(product);
+                //int productId = await _productEndPoint.PostProductInfo(product);
 
                 InventoryModel inventory = new InventoryModel();
-                inventory.ProductId = productId;
+                //inventory.ProductId = productId;
                 inventory.PurchasePrice = PurchasePrice;
                 inventory.Quantity = TotalQuantity;
 
-                await _productEndPoint.PostInventoryInfo(inventory);
+                //await _productEndPoint.PostInventoryInfo(inventory);
+                if (await _productEndPoint.PostProductInventory(product, inventory))//using transaction
+                {
+                    MessageBox.Show($"{ProductName} Inserted successfully");
+                    ResetFields();
+                }
+                else
+                {
 
-                //ErrorMessage = "New Account has been created!";
-                MessageBox.Show($"{ProductName} Inserted successfully");
-                ResetFields();
+                    MessageBox.Show("Something went wrong! Please try again later");
+                }
+               
+
+            
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,16 @@ namespace TulipWpfUI.ViewModels
     {
         private readonly IAPIHelper _apiHelper;
         private readonly IEventAggregator _events;
+        private readonly StatusInfoViewModel _status;
+        private readonly IWindowManager _window;
 
-        public RegisterViewModel(IAPIHelper apiHelper,IEventAggregator events)
+        public RegisterViewModel(IAPIHelper apiHelper,IEventAggregator events, 
+            StatusInfoViewModel status, IWindowManager window)
         {
             _apiHelper = apiHelper;
             _events = events;
+            _status = status;
+            _window = window;
         }
 
         private string _firstName;
@@ -151,10 +157,18 @@ namespace TulipWpfUI.ViewModels
 
                     await _apiHelper.PostUserInfo(user);
 
+                    dynamic settings = new ExpandoObject();
+                    settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
+                    settings.ResizeMode = ResizeMode.NoResize;
+                    settings.Title = "System Error";
+
+                    _status.UpdateMessage("Account Created Successfully", $"{FirstName} Thank you for joining us!");
+                    _window.ShowDialog(_status, null, settings);
+
                     _events.PublishOnUIThread(new LogInEvent());
                 }
-                //ErrorMessage = "New Account has been created!";
-                MessageBox.Show($"New Account has been created successfully");
+                
+                //MessageBox.Show($"New Account has been created successfully");
             }
             catch (Exception ex)
             {

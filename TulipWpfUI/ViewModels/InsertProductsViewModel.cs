@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,50 @@ namespace TulipWpfUI.ViewModels
     {
         private readonly IProductEndPoint _productEndPoint;
         private readonly IEventAggregator _events;
+        private readonly StatusInfoViewModel _status;
+        private readonly IWindowManager _window;
+        private readonly ILoggedInUserModel _loggedInUser;
 
-        public InsertProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events)
+        public InsertProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events,
+            StatusInfoViewModel status, IWindowManager window, ILoggedInUserModel loggedInUser)
         {
             _productEndPoint = productEndPoint;
             _events = events;
+            _status = status;
+            _window = window;
+            _loggedInUser = loggedInUser;
+
+     
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            if (IsAdmin == false)
+            {
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "System Error";
+
+                _status.UpdateMessage("Unauthorized Access", "You do not have permission to interact with the Product Form.");
+                _window.ShowDialog(_status, null, settings);
+                _events.PublishOnUIThread(new LogOnEvent());
+            }
+        }
+
+        public bool IsAdmin
+        {
+            get
+            {
+                bool output = false;
+                if (_loggedInUser.Role == "Admin")
+                {
+                    output = true;
+                }
+                return output;
+            }
+
         }
 
         private string _productName;
@@ -185,6 +225,10 @@ namespace TulipWpfUI.ViewModels
         }
         public async Task Submit()
         {
+            dynamic settings = new ExpandoObject();
+            settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
+            settings.ResizeMode = ResizeMode.NoResize;
+            settings.Title = "System Error";
             try
             {
                 // Use transactions to commit the following to database
@@ -208,13 +252,16 @@ namespace TulipWpfUI.ViewModels
                 //await _productEndPoint.PostInventoryInfo(inventory);
                 if (await _productEndPoint.PostProductInventory(product, inventory))//using transaction
                 {
-                    MessageBox.Show($"{ProductName} Inserted successfully");
+                    _status.UpdateMessage($"{ProductName}", "Product Information Inserted successfully!");
+                    _window.ShowDialog(_status, null, settings);
+                    //MessageBox.Show($"{ProductName} Inserted successfully");
                     ResetFields();
                 }
                 else
                 {
-
-                    MessageBox.Show("Something went wrong! Please try again later");
+                    _status.UpdateMessage("Error Inserting Product", "Something went wrong! Please try again later");
+                    _window.ShowDialog(_status, null, settings);
+                    //MessageBox.Show("Something went wrong! Please try again later");
                 }
                
 

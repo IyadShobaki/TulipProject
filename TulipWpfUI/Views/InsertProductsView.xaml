@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TulipWpfUI.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" FontSize="18"
+             mc:Ignorable="d" FontSize="18" Background="LightCyan" 
              d:DesignHeight="800" d:DesignWidth="1200">
-    <Grid>
+    <Grid Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
         <Grid>
             <Rectangle Height="800" VerticalAlignment="Top">
                 <Rectangle.Fill>

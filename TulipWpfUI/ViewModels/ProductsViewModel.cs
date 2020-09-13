@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +22,13 @@ namespace TulipWpfUI.ViewModels
         private readonly IConfigHelper _configHelper;
         private readonly IOrderEndPoint _orderEndPoint;
         private readonly IAPIHelper _apiHelper;
+        private readonly StatusInfoViewModel _status;
+        private readonly IWindowManager _window;
 
         public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events,
             ILoggedInUserModel loggedInUserModel, IConfigHelper configHelper,
-            IOrderEndPoint orderEndPoint, IAPIHelper apiHelper)
+            IOrderEndPoint orderEndPoint, IAPIHelper apiHelper, StatusInfoViewModel status,
+            IWindowManager window)
         {
             _productEndPoint = productEndPoint;
             _events = events;
@@ -32,7 +36,8 @@ namespace TulipWpfUI.ViewModels
             _configHelper = configHelper;
             _orderEndPoint = orderEndPoint;
             _apiHelper = apiHelper;
-           
+            _status = status;
+            _window = window;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -170,6 +175,11 @@ namespace TulipWpfUI.ViewModels
 
         public async Task CheckOut()
         {
+            dynamic settings = new ExpandoObject();
+            settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
+            settings.ResizeMode = ResizeMode.NoResize;
+            settings.Title = "System Error";
+
             try
             {
 
@@ -208,14 +218,18 @@ namespace TulipWpfUI.ViewModels
                         await _productEndPoint.UpdateProductQuantity(item.Id, (item.QuantityInStock - item.ItemQuantity));
                     }
 
+                    _status.UpdateMessage("Thank you for shopping with us!", $"{_loggedInUserModel.FirstName}, your order Submitted Successfully");
+                    _window.ShowDialog(_status, null, settings);
 
-                    MessageBox.Show($@"Your order is in the way{Environment.NewLine}{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
+                    //MessageBox.Show($@"Your order is in the way{Environment.NewLine}{_loggedInUserModel.FirstName}, Thank you for shopping with us!");
                     await ResetCart();
                 }
                 else
                 {
                     await _orderEndPoint.DeleteOrder(orderId);
-                    MessageBox.Show("Something went wrong! Please try again later");
+                    _status.UpdateMessage("Error!!!", "Something went wrong! Please try again later");
+                    _window.ShowDialog(_status, null, settings);
+                    //MessageBox.Show("Something went wrong! Please try again later");
                 }
                 // For testing
                 // Comment the following line inside OrderDetail table and publish
@@ -260,12 +274,13 @@ namespace TulipWpfUI.ViewModels
             get
             {
                 
-                bool output = false;
-                if (_loggedInUserModel.Role == "Admin")
-                {
-                    output = true;
-                }
-                return output;
+                //bool output = false;
+                //if (_loggedInUserModel.Role == "Admin")
+                //{
+                //    output = true;
+                //}
+                //return output;
+                return true;
 
             }
 

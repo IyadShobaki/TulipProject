@@ -1,9 +1,11 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TulipWpfUI.EventModels;
 using TulipWpfUI.Library.Api;
 using TulipWpfUI.Library.Models;
@@ -14,20 +16,64 @@ namespace TulipWpfUI.ViewModels
     {
         private readonly IOrderEndPoint _orderEndPoint;
         private readonly IEventAggregator _events;
+        private readonly StatusInfoViewModel _status;
+        private readonly IWindowManager _window;
 
-        public OrdersViewModel(IOrderEndPoint orderEndPoint, IEventAggregator events)
+        public OrdersViewModel(IOrderEndPoint orderEndPoint, IEventAggregator events,
+            StatusInfoViewModel status, IWindowManager window)
         {
             _orderEndPoint = orderEndPoint;
             _events = events;
+            _status = status;
+            _window = window;
         }
 
         protected override async void OnViewLoaded(object view)
         {
 
             base.OnViewLoaded(view);
-            await LoadReports();
+            try
+            {
+             
+                await LoadReports();
+                
+            }
+            catch (Exception ex)
+            {
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "System Error";
+
+                if (ex.Message == "Unauthorized")
+                {
+                    _status.UpdateMessage("Unauthorized Access", "You do not have permission to interact with the Order Form.");
+                    _window.ShowDialog(_status, null, settings);
+                    _events.PublishOnUIThread(new LogOnEvent());
+                }
+                else
+                {
+                    _status.UpdateMessage("Fatal Exception", ex.Message);
+                    _window.ShowDialog(_status, null, settings);
+                    _events.PublishOnUIThread(new LogOnEvent());
+                }
+            }
 
         }
+
+        public bool IsAdmin
+        {
+            get
+            {
+                if (Orders?.Count > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+    
+
 
         private async Task LoadReports()
         {
@@ -45,6 +91,7 @@ namespace TulipWpfUI.ViewModels
             {
                 _orders = value;
                 NotifyOfPropertyChange(() => Orders);
+                NotifyOfPropertyChange(() => IsAdmin);
             }
         }
 

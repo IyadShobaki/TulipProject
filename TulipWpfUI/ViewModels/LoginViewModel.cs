@@ -63,14 +63,11 @@ namespace TulipWpfUI.ViewModels
         {
             get { return _errorMessage; }
             set
-            {
-                 
+            {              
                 _errorMessage = value;
                 NotifyOfPropertyChange(() => IsErrorVisible);
                 NotifyOfPropertyChange(() => ErrorMessage);
-              
-               
-
+                        
             }
         }
 

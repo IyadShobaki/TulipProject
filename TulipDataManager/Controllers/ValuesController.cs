@@ -21,9 +21,9 @@ namespace TulipDataManager.Controllers
 
             //using (var context = new ApplicationDbContext())
             //{
-                
+
             //    roles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
-                
+
             //}
 
             //string result = "Not Admin";
@@ -32,11 +32,15 @@ namespace TulipDataManager.Controllers
             //{
             //    result = "Admin";
             //}
-        
-          
+
+            string result = "Not Admin";
+            if (RequestContext.Principal.IsInRole("Admin"))
+            {
+                result = "Admin";
+            }
           
             //return new string[] { "value1", "value2", userId };
-            return new string[] {  userId };
+            return new string[] {  userId, result };
          
         }
 

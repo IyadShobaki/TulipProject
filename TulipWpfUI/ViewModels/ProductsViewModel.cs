@@ -20,16 +20,19 @@ namespace TulipWpfUI.ViewModels
         private readonly ILoggedInUserModel _loggedInUserModel;
         private readonly IConfigHelper _configHelper;
         private readonly IOrderEndPoint _orderEndPoint;
+        private readonly IAPIHelper _apiHelper;
 
         public ProductsViewModel(IProductEndPoint productEndPoint, IEventAggregator events,
             ILoggedInUserModel loggedInUserModel, IConfigHelper configHelper,
-            IOrderEndPoint orderEndPoint)
+            IOrderEndPoint orderEndPoint, IAPIHelper apiHelper)
         {
             _productEndPoint = productEndPoint;
             _events = events;
             _loggedInUserModel = loggedInUserModel;
             _configHelper = configHelper;
             _orderEndPoint = orderEndPoint;
+            _apiHelper = apiHelper;
+           
         }
 
         protected override async void OnViewLoaded(object view)
@@ -37,7 +40,8 @@ namespace TulipWpfUI.ViewModels
 
             base.OnViewLoaded(view);
             await LoadProducts();
- 
+            await GetUserRole();
+
         }
 
         private async Task LoadProducts()
@@ -237,22 +241,32 @@ namespace TulipWpfUI.ViewModels
         public string LoggedInUser
         {
             get
-            {
+            {         
                 return _loggedInUserModel.FirstName;
             }
         }
+
+        private async Task GetUserRole()
+        {
+            List<string> userRole = await _apiHelper.GetUserId(_loggedInUserModel.Token);
+
+            _loggedInUserModel.Role = userRole[1];
+            NotifyOfPropertyChange(() => IsAdmin);
+        }
+        
 
         public bool IsAdmin
         {
             get
             {
-                //bool output = false;
-                //if (ErrorMessage?.Length > 0)
-                //{
-                //    output = true;
-                //}
-                //return output;
-                return true;
+                
+                bool output = false;
+                if (_loggedInUserModel.Role == "Admin")
+                {
+                    output = true;
+                }
+                return output;
+
             }
 
         }

@@ -143,7 +143,8 @@ namespace TulipWpfUI.ViewModels
                     var result = await _apiHelper.Authenticate(Email, Password);
 
                     UserModel user = new UserModel();
-                    user.Id = await _apiHelper.GetUserId(result.Access_Token);
+                    List<string> UInfor = await _apiHelper.GetUserId(result.Access_Token);
+                    user.Id = UInfor[0];
                     user.FirstName = FirstName;
                     user.LastName = LastName;
                     user.EmailAddress = Email;

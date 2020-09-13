@@ -12,6 +12,7 @@ namespace TulipWpfUI.Library.Models
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Role { get; set; }
         public string EmailAddress { get; set; }
         public DateTime CreatedDate { get; set; }
 
@@ -21,6 +22,7 @@ namespace TulipWpfUI.Library.Models
             Id = "";
             FirstName = "";
             LastName = "";
+            Role = "";
             EmailAddress = "";
             CreatedDate = DateTime.MinValue;
         }

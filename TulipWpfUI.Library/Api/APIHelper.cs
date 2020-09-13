@@ -131,7 +131,7 @@ namespace TulipWpfUI.Library.Api
         }
 
 
-        public async Task<string> GetUserId(string token)
+        public async Task<List<string>> GetUserId(string token)
         {
             _apiClient.DefaultRequestHeaders.Clear();
             _apiClient.DefaultRequestHeaders.Accept.Clear();
@@ -144,8 +144,8 @@ namespace TulipWpfUI.Library.Api
                 {
                    
                     var result = await response.Content.ReadAsAsync<List<string>>();
-
-                    return result[0];
+                    
+                    return result;
                 }
                 else
                 {

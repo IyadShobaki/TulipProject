@@ -22,9 +22,8 @@
         <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
             <TextBlock Text="Products" HorizontalAlignment="Center"
                        Margin="10 50 10 0" FontSize="20"/>
-            <Button x:Name="test" Content="Add Product" Height="30" Width="100"
-                    Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-            <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
+            <StackPanel VerticalAlignment="Bottom" Orientation="Vertical"
+                        Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <Button x:Name="AddNewProduct" Background="#FF2281D1" 
                      Width="110" 
                     Height="50" Content="Add New Product"

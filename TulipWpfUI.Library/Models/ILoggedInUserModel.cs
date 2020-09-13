@@ -9,6 +9,7 @@ namespace TulipWpfUI.Library.Models
         string FirstName { get; set; }
         string Id { get; set; }
         string LastName { get; set; }
+        string Role { get; set; }
         string Token { get; set; }
 
         void ResetUserModel();

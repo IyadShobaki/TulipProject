@@ -138,6 +138,9 @@ namespace TulipWpfUI.ViewModels
         }
         public async Task Submit()
         {
+            dynamic settings = new ExpandoObject();
+            settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
+            settings.ResizeMode = ResizeMode.NoResize;
             try
             {
                
@@ -157,22 +160,23 @@ namespace TulipWpfUI.ViewModels
 
                     await _apiHelper.PostUserInfo(user);
 
-                    dynamic settings = new ExpandoObject();
-                    settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
-                    settings.ResizeMode = ResizeMode.NoResize;
-                    settings.Title = "System Error";
-
+                    
+                    settings.Title = "System Message";
                     _status.UpdateMessage("Account Created Successfully", $"{FirstName} Thank you for joining us!");
                     _window.ShowDialog(_status, null, settings);
 
                     _events.PublishOnUIThread(new LogInEvent());
                 }
                 
+                
                 //MessageBox.Show($"New Account has been created successfully");
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                //ErrorMessage = ex.Message;
+                settings.Title = "System Error";
+                _status.UpdateMessage("Fatal Exception", ex.Message);
+                _window.ShowDialog(_status, null, settings);
             }
         }
 

@@ -18,21 +18,28 @@
                 </Border>
                 <TextBlock Margin="5" Text="{Binding RetailPrice, StringFormat={}{0:C}}" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <TextBlock Margin="5 0" Text="{Binding Description}" FontSize="13" FontWeight="Medium" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding QuantityInStock, StringFormat={}{0} items left}"
-                                                   HorizontalAlignment="Center" FontSize="11" Margin="5"/>
-                <TextBlock Text="{Binding DisplayTaxable}"
-                           HorizontalAlignment="Center" FontSize="11" Margin="5"/>
-
+                <StackPanel Orientation="Horizontal" Margin="5 0 5 5" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding QuantityInStock, StringFormat={}{0} items left /}"
+                               FontSize="11" Margin="5 5 0 5"/>
+                    <TextBlock Text="{Binding DisplayTaxable}"
+                            FontSize="11" Margin="2 5 5 5"/>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal"  Margin="5 0 5 5">
                     <TextBlock Text="Quantity" Margin="5 0 0 0"/>
-                    <TextBox x:Name="ItemQuantity" Width="130" Margin="5 0 0 0"/>
+                    <TextBox x:Name="ItemQuantity" Width="130" Margin="15 0 0 0"/>
                 </StackPanel>
                 <Button x:Name="AddToCart" Background="#FF2281D1" 
-                                                Content="Add To Cart"
-                                                Foreground="White" Margin="5"/>
+                            Content="Add To Cart"
+                            Foreground="White" Margin="5"
+                            HorizontalAlignment="Center"
+                            Width="160"
+                            Visibility="{Binding CanAddToCart, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
                 <Button x:Name="RemoveFromCart" Background="#FF2281D1" 
-                                                Content="Remove From Cart"
-                                                Foreground="White" Margin="5"/>
+                            Content="Remove From Cart"
+                            Foreground="White" Margin="10 5 5 5"
+                            HorizontalAlignment="Center"
+                            Width="160"
+                            Visibility="{Binding CanRemoveFromCart, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
             </StackPanel>
         </Border>
     </Grid>

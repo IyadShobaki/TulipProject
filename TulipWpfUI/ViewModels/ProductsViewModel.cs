@@ -178,7 +178,7 @@ namespace TulipWpfUI.ViewModels
             dynamic settings = new ExpandoObject();
             settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
             settings.ResizeMode = ResizeMode.NoResize;
-            settings.Title = "System Error";
+           
 
             try
             {
@@ -218,6 +218,7 @@ namespace TulipWpfUI.ViewModels
                         await _productEndPoint.UpdateProductQuantity(item.Id, (item.QuantityInStock - item.ItemQuantity));
                     }
 
+                    settings.Title = "System Message";
                     _status.UpdateMessage("Thank you for shopping with us!", $"{_loggedInUserModel.FirstName}, your order Submitted Successfully");
                     _window.ShowDialog(_status, null, settings);
 
@@ -227,6 +228,7 @@ namespace TulipWpfUI.ViewModels
                 else
                 {
                     await _orderEndPoint.DeleteOrder(orderId);
+                    settings.Title = "System Error";
                     _status.UpdateMessage("Error!!!", "Something went wrong! Please try again later");
                     _window.ShowDialog(_status, null, settings);
                     //MessageBox.Show("Something went wrong! Please try again later");
@@ -273,14 +275,14 @@ namespace TulipWpfUI.ViewModels
         {
             get
             {
-                
-                //bool output = false;
-                //if (_loggedInUserModel.Role == "Admin")
-                //{
-                //    output = true;
-                //}
-                //return output;
-                return true;
+
+                bool output = false;
+                if (_loggedInUserModel.Role == "Admin")
+                {
+                    output = true;
+                }
+                return output;
+                //return true;
 
             }
 

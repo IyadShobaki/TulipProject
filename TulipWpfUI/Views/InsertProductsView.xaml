@@ -7,9 +7,9 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" FontSize="18" Background="LightCyan" 
              d:DesignHeight="800" d:DesignWidth="1200">
-    <Grid Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+    <Grid >
         <Grid>
-            <Rectangle Height="800" VerticalAlignment="Top">
+            <Rectangle Height="Auto" Width="Auto">
                 <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" >
                         <GradientStop Color="#FF2281D1" Offset="0.1"/>
@@ -19,8 +19,8 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <Rectangle Width="600" Height="728" Fill="Azure"
-                   VerticalAlignment="Bottom" Margin="0 0 0 30">
+            <Rectangle Width="600" Height="680" Fill="Azure"
+                   VerticalAlignment="Bottom" Margin="0 0 0 40">
                 <Rectangle.Effect>
                     <DropShadowEffect Direction="999" Color="#FFBBBBBB"
                                   RenderingBias="Quality" BlurRadius="15"
@@ -30,9 +30,9 @@
         </Grid>
 
         <StackPanel Width="500" Height="720" 
-                    VerticalAlignment="Bottom" Margin="0 0 0 40">
+                    VerticalAlignment="Bottom" >
             <TextBlock Text="Insert New Product Information" HorizontalAlignment="Center"
-                       VerticalAlignment="Top" Margin="0 0 0 20" 
+                       VerticalAlignment="Top"  
                        FontWeight="SemiBold" FontSize="24" />
             <TextBlock x:Name="ErrorMessage"
                        Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
@@ -57,10 +57,12 @@
             <TextBox Text="{Binding RetailPrice, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, StringFormat={}{0:N2}}" Margin="10 5 10 0"/>
             <TextBlock Text="Quantity In Stock (Available):" Margin="10 10 10 0"/>
             <TextBox x:Name="QuantityInStock" Margin="10 5 10 0"/>
-            <CheckBox x:Name="IsTaxable" Content="Is Taxable"   
-                      Margin="10 10 10 0"/>
-            <CheckBox x:Name="Sex" Content="For Men"   
-                      Margin="10 10 10 0"/>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox x:Name="IsTaxable" Content="Is Taxable"   
+                            Margin="10 10 10 0"/>
+                <CheckBox x:Name="Sex" Content="For Men"   
+                            Margin="10 10 10 0"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="20">
                 <Button x:Name="Submit" Background="#FF2281D1" 
                     VerticalAlignment="Bottom" Width="130" 

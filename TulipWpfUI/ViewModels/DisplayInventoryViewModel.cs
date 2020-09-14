@@ -73,6 +73,18 @@ namespace TulipWpfUI.ViewModels
             }
         }
 
+        public bool IsEmpty
+        {
+            get
+            {
+                if (InventoryReport?.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
 
         private async Task LoadReports()
         {
@@ -91,6 +103,7 @@ namespace TulipWpfUI.ViewModels
                 _inventoryReport = value;
                 NotifyOfPropertyChange(() => InventoryReport);
                 NotifyOfPropertyChange(() => IsAdmin);
+                NotifyOfPropertyChange(() => IsEmpty);
             }
         }
 

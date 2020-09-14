@@ -72,8 +72,19 @@ namespace TulipWpfUI.ViewModels
                 return false;
             }
         }
-    
 
+        public bool IsEmpty
+        {
+            get
+            {
+                if (Orders?.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+        
 
         private async Task LoadReports()
         {
@@ -92,6 +103,7 @@ namespace TulipWpfUI.ViewModels
                 _orders = value;
                 NotifyOfPropertyChange(() => Orders);
                 NotifyOfPropertyChange(() => IsAdmin);
+                NotifyOfPropertyChange(() => IsEmpty);
             }
         }
 

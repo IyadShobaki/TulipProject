@@ -5,7 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TulipWpfUI.Views"
              mc:Ignorable="d"  Background="LightCyan" FontSize="20">
-    <Grid Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+    <Grid>
+        <Rectangle Height="Auto" Width="Auto">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" >
+                    <GradientStop Color="#FF2281D1" Offset="0.1"/>
+                    <GradientStop Color="green" Offset="0.9"/>
+                    <GradientStop Color="#FF3" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -27,9 +37,13 @@
             </StackPanel>
 
         </Grid>
+            <TextBlock Text="There is no orders records found in the database!" TextAlignment="Center"
+                       Grid.Column="1" Grid.Row="1"
+                       Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
         <DataGrid Grid.Column="1" Grid.Row="1" x:Name="InventoryReport" AlternatingRowBackground="LightBlue"
                   CanUserAddRows="False" CanUserDeleteRows="False" 
-                  AutoGenerateColumns="False" Margin="20 0 30 30" >
+                  AutoGenerateColumns="False" Margin="20 0 30 30"
+                  Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
 
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Product Id">
@@ -86,5 +100,6 @@
             </DataGrid.Columns>
         </DataGrid>
 
+    </Grid>
     </Grid>
 </UserControl>

@@ -5,7 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TulipWpfUI.Views"
              mc:Ignorable="d" Background="LightCyan" FontSize="20">
-    <Grid  Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+    <Grid>
+        <Rectangle Height="Auto" Width="Auto">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" >
+                    <GradientStop Color="#FF2281D1" Offset="0.1"/>
+                    <GradientStop Color="green" Offset="0.9"/>
+                    <GradientStop Color="#FF3" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+    <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -17,19 +28,23 @@
         <TextBlock Grid.Column="1" Grid.Row="0"
                    Text="Orders Report"
                    TextAlignment="Center"/>
-        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
-           
-            <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
-                <Button x:Name="BackToProduct" Background="#FF2281D1" 
+            <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+
+                <StackPanel  VerticalAlignment="Bottom" Orientation="Vertical">
+                    <Button x:Name="BackToProduct" Background="#FF2281D1" 
                      Width="110" 
                     Height="50" Content="Product Page"
                     Foreground="White" Margin="10" FontSize="13"/>
-            </StackPanel>
+                </StackPanel>
 
-        </Grid>
-        <DataGrid Grid.Column="1" Grid.Row="1" x:Name="Orders" AlternatingRowBackground="LightBlue"
+            </Grid>
+            <TextBlock Text="There is no orders records found in the database!" TextAlignment="Center"
+                       Grid.Column="1" Grid.Row="1"
+                       Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+            <DataGrid Grid.Column="1" Grid.Row="1" x:Name="Orders" AlternatingRowBackground="LightBlue"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
-                  AutoGenerateColumns="False" Margin="20 0 30 30">
+                  AutoGenerateColumns="False" Margin="20 0 30 30"
+                  Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Order Date">
                     <DataGridTemplateColumn.CellTemplate>
@@ -83,5 +98,6 @@
             </DataGrid.Columns>
         </DataGrid>
      
+    </Grid>
     </Grid>
 </UserControl>

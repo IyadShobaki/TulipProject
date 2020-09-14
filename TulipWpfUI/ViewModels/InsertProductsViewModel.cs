@@ -228,7 +228,7 @@ namespace TulipWpfUI.ViewModels
             dynamic settings = new ExpandoObject();
             settings.WindowStartupLocationLocation = WindowStartupLocation.CenterOwner;
             settings.ResizeMode = ResizeMode.NoResize;
-            settings.Title = "System Error";
+      
             try
             {
                 // Use transactions to commit the following to database
@@ -252,6 +252,7 @@ namespace TulipWpfUI.ViewModels
                 //await _productEndPoint.PostInventoryInfo(inventory);
                 if (await _productEndPoint.PostProductInventory(product, inventory))//using transaction
                 {
+                    settings.Title = "System Message";
                     _status.UpdateMessage($"{ProductName}", "Product Information Inserted successfully!");
                     _window.ShowDialog(_status, null, settings);
                     //MessageBox.Show($"{ProductName} Inserted successfully");
@@ -259,6 +260,7 @@ namespace TulipWpfUI.ViewModels
                 }
                 else
                 {
+                    settings.Title = "System Error";
                     _status.UpdateMessage("Error Inserting Product", "Something went wrong! Please try again later");
                     _window.ShowDialog(_status, null, settings);
                     //MessageBox.Show("Something went wrong! Please try again later");

@@ -12,7 +12,7 @@ namespace TulipWpfUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<RegisterEvent>,
         IHandle<LogInEvent>, IHandle<InsertProductsEvent>, IHandle<OrdersReportEvent>,
-        IHandle<DisplayInventoryEvent>
+        IHandle<DisplayInventoryEvent>, IHandle<UserManagementEvent>
     {
        
         private IEventAggregator _events;
@@ -80,6 +80,11 @@ namespace TulipWpfUI.ViewModels
         public void Handle(DisplayInventoryEvent message)
         {
             ActivateItem(IoC.Get<DisplayInventoryViewModel>());
+        }
+
+        public void Handle(UserManagementEvent message)
+        {
+            ActivateItem(IoC.Get<UserDisplayViewModel>());
         }
 
         public bool IsLoggedIn

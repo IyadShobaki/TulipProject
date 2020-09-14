@@ -15,5 +15,6 @@ namespace TulipWpfUI.Library.Api
         Task PostUserInfo(UserModel user);
         Task<string> RegisterUser(string email, string password, string confirmPassword);
         void LogOffUser();
+        Task<List<ApplicationUserModel>> GetAllUsersInfo();
     }
 }

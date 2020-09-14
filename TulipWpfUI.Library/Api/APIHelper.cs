@@ -153,5 +153,24 @@ namespace TulipWpfUI.Library.Api
                 }
             }
         }
+
+        public async Task<List<ApplicationUserModel>> GetAllUsersInfo()
+        {
+           
+            using (HttpResponseMessage response = await _apiClient.GetAsync("/api/GetAllUsers"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                    var result = await response.Content.ReadAsAsync<List<ApplicationUserModel>>();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

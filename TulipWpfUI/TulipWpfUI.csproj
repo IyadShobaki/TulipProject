@@ -99,6 +99,7 @@
     <Compile Include="EventModels\OrdersReportEvent.cs" />
     <Compile Include="EventModels\RegisterEvent.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
+    <Compile Include="EventModels\UserManagementEvent.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="ViewModels\DisplayInventoryViewModel.cs" />
     <Compile Include="ViewModels\InsertProductsViewModel.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\StatusInfoViewModel.cs" />
+    <Compile Include="ViewModels\UserDisplayViewModel.cs" />
     <Compile Include="Views\DisplayInventoryView.xaml.cs">
       <DependentUpon>DisplayInventoryView.xaml</DependentUpon>
     </Compile>
@@ -139,6 +141,9 @@
     </Compile>
     <Compile Include="Views\StatusInfoView.xaml.cs">
       <DependentUpon>StatusInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserDisplayView.xaml.cs">
+      <DependentUpon>UserDisplayView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\DisplayInventoryView.xaml">
       <SubType>Designer</SubType>
@@ -173,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StatusInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserDisplayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

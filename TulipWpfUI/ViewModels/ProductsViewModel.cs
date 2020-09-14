@@ -303,5 +303,11 @@ namespace TulipWpfUI.ViewModels
 
             _events.PublishOnUIThread(new DisplayInventoryEvent());
         }
+
+        public void UserManagement()
+        {
+
+            _events.PublishOnUIThread(new UserManagementEvent());
+        }
     }
 }

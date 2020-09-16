@@ -77,11 +77,12 @@ namespace TulipWpfUI.ViewModels
         {
             get
             {
-                if (Orders?.Count > 0)
-                {
-                    return false;
-                }
-                return true;
+                return !IsAdmin;
+                //if (Orders?.Count > 0)
+                //{
+                //    return false;
+                //}
+                //return true;
             }
         }
         

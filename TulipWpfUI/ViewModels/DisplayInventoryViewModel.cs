@@ -77,7 +77,8 @@ namespace TulipWpfUI.ViewModels
         {
             get
             {
-                if (InventoryReport?.Count > 0)
+
+                if (InventoryReport?.Count > 0 )
                 {
                     return false;
                 }

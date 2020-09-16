@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 using TulipDataManager.Library.DataAccess;
 using TulipDataManager.Library.Models;
 using TulipDataManager.Models;
@@ -22,7 +23,7 @@ namespace TulipDataManager.Controllers
             UserData data = new UserData();
 
             return data.GetUserById(userId).First();
-      
+
         }
         [HttpPost]
         public void Post(UserModel user)
@@ -30,11 +31,11 @@ namespace TulipDataManager.Controllers
 
             UserData data = new UserData();
             data.InsertUser(user);
-         
+
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Route("api/GetAllUsers")]
+        [Route("api/User/GetAllUsers")]
         public List<ApplicationUserModel> GetAllUsers()
         {
             List<ApplicationUserModel> output = new List<ApplicationUserModel>();
@@ -51,7 +52,7 @@ namespace TulipDataManager.Controllers
                 {
                     UserData data = new UserData();
 
-                    var userInfo =  data.GetUserById(user.Id).First();
+                    var userInfo = data.GetUserById(user.Id).First();
 
                     ApplicationUserModel u = new ApplicationUserModel
                     {
@@ -72,5 +73,63 @@ namespace TulipDataManager.Controllers
             return output;
         }
 
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/User/GetAllRoles")]
+        public Dictionary<string, string> GetAllRoles()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var roles = context.Roles.ToDictionary(x => x.Id, x => x.Name);
+                return roles;
+
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/User/AddRole")]
+        public void AddARole(UserRolePairModel pairing)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.AddToRole(pairing.UserId, pairing.RoleName);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/User/RemoveRole")]
+        public void RemoveARole(UserRolePairModel pairing)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.RemoveFromRole(pairing.UserId, pairing.RoleName);
+            }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/User/CreateRole")]
+        public void CreateARole(object roleName)
+        {
+            string role = (string)roleName;
+                 
+            using (var context = new ApplicationDbContext())
+            {
+                var roleStore = new RoleStore<IdentityRole>(context);
+                var roleManager = new RoleManager<IdentityRole>(roleStore);
+                roleManager.Create(new IdentityRole { Name = $"{role}" });
+            }
+        }
+
     }
 }
+
+   

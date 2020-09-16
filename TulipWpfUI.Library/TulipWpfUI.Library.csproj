@@ -54,8 +54,10 @@
     <Compile Include="Api\InventoryEndPoint.cs" />
     <Compile Include="Api\IOrderEndPoint.cs" />
     <Compile Include="Api\IProductEndPoint.cs" />
+    <Compile Include="Api\IUserEndPoint.cs" />
     <Compile Include="Api\OrderEndPoint.cs" />
     <Compile Include="Api\ProductEndPoint.cs" />
+    <Compile Include="Api\UserEndPoint.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\IConfigHelper.cs" />
     <Compile Include="Models\ApplicationUserModel.cs" />

@@ -48,6 +48,7 @@ namespace TulipWpfUI
             _container.Instance(_container)
                 .PerRequest<IProductEndPoint, ProductEndPoint>()
                 .PerRequest<IOrderEndPoint, OrderEndPoint>()
+                .PerRequest<IUserEndPoint, UserEndPoint>()
                 .PerRequest<IInventoryEndPoint, InventoryEndPoint>();
 
             _container

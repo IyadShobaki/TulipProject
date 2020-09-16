@@ -93,11 +93,7 @@ namespace TulipWpfUI.Library.Api
             int[] product = { productId, newQuantity };
             using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/UpdateProductQuantity", product))
             {
-                if (response.IsSuccessStatusCode)
-                {
-
-                }
-                else
+                if (response.IsSuccessStatusCode == false)
                 {
                     throw new Exception(response.ReasonPhrase);
                 }

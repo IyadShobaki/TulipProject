@@ -69,12 +69,9 @@ namespace TulipWpfUI.Library.Api
         {
             using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/DeleteOrder", orderId))
             {
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode == false)
                 {
 
-                }
-                else
-                {
                     throw new Exception(response.ReasonPhrase);
                 }
             }

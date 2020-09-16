@@ -15,18 +15,19 @@ namespace TulipWpfUI.ViewModels
 {
     public class UserDisplayViewModel : Screen
     {
-        private readonly IAPIHelper _apiHelper;
+
         private readonly IEventAggregator _events;
         private readonly StatusInfoViewModel _status;
         private readonly IWindowManager _window;
+        private readonly IUserEndPoint _userEndPoint;
 
-        public UserDisplayViewModel(IAPIHelper apiHelper, IEventAggregator events,
-            StatusInfoViewModel status, IWindowManager window)
-        { 
-            _apiHelper = apiHelper;
+        public UserDisplayViewModel(IEventAggregator events,
+            StatusInfoViewModel status, IWindowManager window, IUserEndPoint userEndPoint)
+        {
             _events = events;
             _status = status;
             _window = window;
+            _userEndPoint = userEndPoint;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -37,6 +38,7 @@ namespace TulipWpfUI.ViewModels
             {
 
                 await LoadUsers();
+                await LoadRoles();
 
             }
             catch (Exception ex)
@@ -66,7 +68,7 @@ namespace TulipWpfUI.ViewModels
         private async Task LoadUsers()
         {
 
-            var usersList = await _apiHelper.GetAllUsersInfo();
+            var usersList = await _userEndPoint.GetAllUsersInfo();
             Users = new BindingList<ApplicationUserModel>(usersList);
         }
 
@@ -74,9 +76,9 @@ namespace TulipWpfUI.ViewModels
 
         public BindingList<ApplicationUserModel> Users
         {
-            get 
-            { 
-                return _users; 
+            get
+            {
+                return _users;
             }
             set
             {
@@ -88,7 +90,153 @@ namespace TulipWpfUI.ViewModels
 
         }
 
+        private ApplicationUserModel _selectedUser;
 
+        public ApplicationUserModel SelectedUser
+        {
+            get { return _selectedUser; }
+            set
+            {
+                _selectedUser = value;
+                if (SelectedUser != null)
+                {
+                    SelectedUserName = value.Email;
+                    UserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
+                }
+                NotifyOfPropertyChange(() => SelectedUser);
+                SelectedUserRole = null;
+                NotifyOfPropertyChange(() => SelectedUserRole);
+                NotifyOfPropertyChange(() => CanAddSelectedRole);
+                NotifyOfPropertyChange(() => CanRemoveSelectedRole);
+            }
+        }
+
+        private string _selectedUserName;
+
+        public string SelectedUserName
+        {
+            get
+            {
+                return _selectedUserName;
+            }
+            set
+            {
+                _selectedUserName = value;
+                NotifyOfPropertyChange(() => SelectedUserName);
+            }
+        }
+
+        private BindingList<string> _userRoles = new BindingList<string>();
+
+        public BindingList<string> UserRoles
+        {
+            get { return _userRoles; }
+            set
+            {
+                _userRoles = value;
+                NotifyOfPropertyChange(() => UserRoles);
+            }
+        }
+
+        private BindingList<string> _availableRoles;
+
+        public BindingList<string> AvailableRoles
+        {
+            get { return _availableRoles; }
+            set
+            {
+                _availableRoles = value;
+                NotifyOfPropertyChange(() => AvailableRoles);
+            }
+        }
+
+        private async Task LoadRoles()
+        {
+            var result = await _userEndPoint.GetAllRolesInfo();
+            AvailableRoles = new BindingList<string>(result.Select(x => x.Value).ToList());
+
+        }
+
+
+        private string _selectedUserRole;
+
+        public string SelectedUserRole
+        {
+            get { return _selectedUserRole; }
+            set
+            {
+                _selectedUserRole = value;
+                NotifyOfPropertyChange(() => SelectedUserRole);
+                NotifyOfPropertyChange(() => CanRemoveSelectedRole);
+            }
+        }
+
+        private string _selectedAvailableRole;
+        public string SelectedAvailableRole
+        {
+            get { return _selectedAvailableRole; }
+            set
+            {
+                _selectedAvailableRole = value;
+                NotifyOfPropertyChange(() => SelectedAvailableRole);
+                NotifyOfPropertyChange(() => CanAddSelectedRole);
+            }
+        }
+
+
+        public bool CanAddSelectedRole
+        {
+            get
+            {
+                if (SelectedUser != null && SelectedAvailableRole != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        public async void AddSelectedRole()
+        {
+            if (UserRoles.IndexOf(SelectedAvailableRole) < 0)
+            {
+                await _userEndPoint.AddUserToRole(SelectedUser.Id, SelectedAvailableRole);
+
+                UserRoles.Add(SelectedAvailableRole);
+                await LoadUsers();
+                NotifyOfPropertyChange(() => Users);
+                NotifyOfPropertyChange(() => UserRoles);
+
+            }
+            else
+            {
+                MessageBox.Show("Already There!");
+            }
+
+
+        }
+
+
+        public bool CanRemoveSelectedRole
+        {
+            get
+            {
+                if (SelectedUser != null && SelectedUserRole != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public async void RemoveSelectedRole()
+        {
+            await _userEndPoint.RemoveUserFromRole(SelectedUser.Id, SelectedUserRole);
+
+            UserRoles.Remove(SelectedUserRole);
+            await LoadUsers();
+            NotifyOfPropertyChange(() => Users);
+            NotifyOfPropertyChange(() => UserRoles);
+        }
 
         public bool IsAdmin
         {
@@ -117,6 +265,36 @@ namespace TulipWpfUI.ViewModels
         public void BackToProduct()
         {
             _events.PublishOnUIThread(new LogOnEvent());
+        }
+
+        private string _newRole;
+
+        public string NewRole
+        {
+            get { return _newRole; }
+            set
+            {
+                _newRole = value;
+                NotifyOfPropertyChange(() => NewRole);
+                NotifyOfPropertyChange(() => CanCreateNewRole);
+            }
+        }
+
+        public bool CanCreateNewRole
+        {
+            get
+            {
+                if (NewRole?.Length > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        public async Task CreateNewRole()
+        {
+            await _userEndPoint.CreateNewRole(NewRole);
+            NotifyOfPropertyChange(() => AvailableRoles);
         }
     }
 }

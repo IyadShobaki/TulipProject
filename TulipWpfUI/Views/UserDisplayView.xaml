@@ -24,8 +24,8 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="140"/>
-                <ColumnDefinition Width="450"/>
-                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="270"/>
                 <ColumnDefinition Width="*"/>
                 
             </Grid.ColumnDefinitions>
@@ -33,41 +33,60 @@
                    Text="Application Users"
                    TextAlignment="Center"/>
             <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
-
                 <StackPanel  VerticalAlignment="Bottom" Orientation="Vertical">
                     <Button x:Name="BackToProduct" Background="#FF2281D1" 
                      Width="110" 
                     Height="50" Content="Product Page"
                     Foreground="White" Margin="10" FontSize="13"/>
                 </StackPanel>
-
             </Grid>
             <TextBlock Text="There is no users records found in the database!" TextAlignment="Center"
                        Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
                        Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
             <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1"
                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                <TextBlock Text="Users and their roles List" Margin="10 0 10 0"
+                <TextBlock Text="Users and their roles List" Margin="10"
                            TextWrapping="Wrap"/>
-                <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
+                <StackPanel Orientation="Horizontal" Margin="10">
                     <TextBlock Text="First Name" />
                     <TextBlock Text="Last Name" Margin="20 0 20 0"/>
-                    <TextBlock Text="Email Address"/>
                 </StackPanel>
-                <ListBox   x:Name="Users" Width="Auto" Height="Auto" Margin="10">
+                <ListBox x:Name="Users" Width="Auto" Height="Auto" Margin="10">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Margin="10">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding FirstName}"/>
                                     <TextBlock Text="{Binding LastName}" Margin="20 0 20 0"/>
-                                    <TextBlock Text="{Binding Email}"/>
                                 </StackPanel>
                                 <TextBlock Text="{Binding RoleList}" FontSize="18"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2" Margin="20 80 20 20"
+                        Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                <ComboBox x:Name="AvailableRoles" Margin="10"/>
+                <Button x:Name="AddSelectedRole" Background="#FF2281D1" 
+                      Height="50" Content="Add Role"
+                    Foreground="White" Margin="10" />
+                <StackPanel Margin="0 200 0 0">
+                    <TextBox x:Name="NewRole" Margin="10"/>
+                    <Button x:Name="CreateNewRole" Background="#FF2281D1" 
+                      Height="50" Content="Create New Role"
+                    Foreground="White" Margin="10" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3"
+                        Margin="20"
+                        Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                <TextBlock x:Name="SelectedUserName" Margin="10"/>
+                <TextBlock Text="Current Roles" Margin="10"/>
+                <ListBox x:Name="UserRoles" Margin="10"></ListBox>
+                <Button x:Name="RemoveSelectedRole" Background="#FF2281D1" 
+                    Height="50" Content="Remove Role"
+                    Foreground="White" Margin="10"/>
             </StackPanel>
         </Grid>
     </Grid>

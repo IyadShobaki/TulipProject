@@ -15,22 +15,27 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class UserController : ApiController
     {
+        private readonly IUserData _data;
+
+        public UserController(IUserData data)
+        {
+            _data = data;
+        }
         [HttpGet]
         public UserModel GetById()
         {
             string userId = RequestContext.Principal.Identity.GetUserId();
 
-            UserData data = new UserData();
-
-            return data.GetUserById(userId).First();
+            //UserData data = new UserData();
+            return _data.GetUserById(userId).First();
 
         }
         [HttpPost]
         public void Post(UserModel user)
         {
 
-            UserData data = new UserData();
-            data.InsertUser(user);
+            //UserData data = new UserData();
+            _data.InsertUser(user);
 
         }
         [Authorize(Roles = "Admin")]
@@ -50,9 +55,9 @@ namespace TulipDataManager.Controllers
 
                 foreach (var user in users)
                 {
-                    UserData data = new UserData();
+                    //UserData data = new UserData();
 
-                    var userInfo = data.GetUserById(user.Id).First();
+                    var userInfo = _data.GetUserById(user.Id).First();
 
                     ApplicationUserModel u = new ApplicationUserModel
                     {

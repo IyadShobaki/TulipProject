@@ -15,11 +15,17 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class ProductController : ApiController
     {
+        private readonly IProductData _data;
+
+        public ProductController(IProductData data)
+        {
+            _data = data;
+        }
         [HttpGet]
         public List<ProductModel> Get()
         {
-            ProductData data = new ProductData();
-            return data.GetProducts();
+            //ProductData data = new ProductData();
+            return _data.GetProducts();
 
         }
 
@@ -30,8 +36,8 @@ namespace TulipDataManager.Controllers
         {
             int productId = product[0];
             int newQuantity = product[1];
-            ProductData data = new ProductData();
-            data.UpdateProductQuantityInStock(productId, newQuantity);
+            //ProductData data = new ProductData();
+            _data.UpdateProductQuantityInStock(productId, newQuantity);
         }
 
 
@@ -47,8 +53,8 @@ namespace TulipDataManager.Controllers
             var inventory = (InventoryModel) javaScriptSerializer.Deserialize(inventoryString, typeof(InventoryModel));
          
 
-            ProductData data = new ProductData();
-            data.InsertProductInventory(product, inventory);
+            //ProductData data = new ProductData();
+            _data.InsertProductInventory(product, inventory);
 
         }
         //[Authorize(Roles = "Admin")]

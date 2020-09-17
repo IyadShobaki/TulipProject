@@ -45,10 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IInventoryData.cs" />
     <Compile Include="DataAccess\InventoryData.cs" />
+    <Compile Include="DataAccess\IOrderData.cs" />
+    <Compile Include="DataAccess\IProductData.cs" />
+    <Compile Include="DataAccess\IUserData.cs" />
     <Compile Include="DataAccess\OrderData.cs" />
     <Compile Include="DataAccess\ProductData.cs" />
     <Compile Include="DataAccess\UserData.cs" />
+    <Compile Include="Internal\DataAccess\ISqlDataAccess.cs" />
     <Compile Include="Models\ApplicationUserModel.cs" />
     <Compile Include="Models\InventoryDisplayModel.cs" />
     <Compile Include="Models\InventoryModel.cs" />

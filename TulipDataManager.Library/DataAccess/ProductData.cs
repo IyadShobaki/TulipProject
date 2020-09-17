@@ -8,39 +8,45 @@ using TulipDataManager.Library.Models;
 
 namespace TulipDataManager.Library.DataAccess
 {
-    public class ProductData
+    public class ProductData : IProductData
     {
+        private readonly ISqlDataAccess _sqlDataAccess;
+
+        public ProductData(ISqlDataAccess sqlDataAccess)
+        {
+            _sqlDataAccess = sqlDataAccess;
+        }
         public List<ProductModel> GetProducts()
         {
-            SqlDataAccess sql = new SqlDataAccess();
+            //SqlDataAccess sql = new SqlDataAccess();
 
-            var output = sql.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "TulipData");
+            var output = _sqlDataAccess.LoadData<ProductModel, dynamic>("dbo.spProduct_GetAll", new { }, "TulipData");
 
             return output;
         }
 
         public void InsertProductInventory(ProductModel product, InventoryModel inventory)
         {
-          
-            using (SqlDataAccess sql = new SqlDataAccess())
+
+            //using (SqlDataAccess sql = new SqlDataAccess())
+            //{
+            try
             {
-                try
-                {
 
-                    sql.StartTransaction("TulipData");
-                    int newProductId = sql.CreateProductTransaction("dbo.spProduct_Insert", product);
+                _sqlDataAccess.StartTransaction("TulipData");
+                int newProductId = _sqlDataAccess.CreateProductTransaction("dbo.spProduct_Insert", product);
 
-                    inventory.ProductId = newProductId;
+                inventory.ProductId = newProductId;
 
-                    sql.SaveDataInTransaction("dbo.spInventory_Insert", inventory);
-                    sql.CommitTransaction();
-                }
-                catch
-                {
-                    sql.RollbackTransaction();
-                    throw;
-                }
+                _sqlDataAccess.SaveDataInTransaction("dbo.spInventory_Insert", inventory);
+                _sqlDataAccess.CommitTransaction();
             }
+            catch
+            {
+                _sqlDataAccess.RollbackTransaction();
+                throw;
+            }
+            //}
         }
 
         //public int InsertProduct(ProductModel product)
@@ -63,8 +69,8 @@ namespace TulipDataManager.Library.DataAccess
         //public void UpdateProductQuantityInStock(UpdatedQtyProductModel updatedQtyProduct)
         public void UpdateProductQuantityInStock(int productId, int newQuantity)
         {
-            SqlDataAccess sql = new SqlDataAccess();
-            sql.SaveData<dynamic>("dbo.spProduct_UpdateQuantity",
+            //SqlDataAccess sql = new SqlDataAccess();
+            _sqlDataAccess.SaveData<dynamic>("dbo.spProduct_UpdateQuantity",
                 new { Id = productId, @QuantityInStock = newQuantity }, "TulipData");
 
         }

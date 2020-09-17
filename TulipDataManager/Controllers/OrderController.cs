@@ -12,12 +12,18 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class OrderController : ApiController
     {
+        private readonly IOrderData _data;
+
+        public OrderController(IOrderData data)
+        {
+            _data = data;
+        }
         [HttpPost]
         public int Post(OrderModel order)
         {
 
-            OrderData data = new OrderData();
-            return data.InsertOrder(order);
+            //OrderData data = new OrderData();
+            return _data.InsertOrder(order);
 
         }
 
@@ -34,8 +40,8 @@ namespace TulipDataManager.Controllers
         public void Post(List<OrderDetailModel> orderDetailModels)
         {
 
-            OrderData data = new OrderData();
-            data.InsertOrderDetails(orderDetailModels);
+            //OrderData data = new OrderData();
+            _data.InsertOrderDetails(orderDetailModels);
 
         }
 
@@ -45,8 +51,8 @@ namespace TulipDataManager.Controllers
         {
             string _id = orderId.ToString();
             int id = int.Parse(_id);
-            OrderData data = new OrderData();
-            data.DeleteOrderById(id);
+            //OrderData data = new OrderData();
+            _data.DeleteOrderById(id);
 
         }
 
@@ -56,8 +62,8 @@ namespace TulipDataManager.Controllers
         [Route("api/GetOrdersReport")]
         public List<OrdersReportModel> GetOrdersReport()
         {
-            OrderData data = new OrderData();
-            return data.GetOrdersReport();
+            //OrderData data = new OrderData();
+            return _data.GetOrdersReport();
         }
     }
 }

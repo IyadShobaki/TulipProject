@@ -12,12 +12,18 @@ namespace TulipDataManager.Controllers
     [Authorize]
     public class InventoryController : ApiController
     {
+        private readonly IInventoryData _data;
+
+        public InventoryController(IInventoryData data)
+        {
+            _data = data;
+        }
         [Authorize(Roles = "Admin")]
         public List<InventoryDisplayModel> GetInventory()
         {
-            InventoryData data = new InventoryData();
+            //InventoryData data = new InventoryData();
 
-            return data.GetInventory();
+            return _data.GetInventory();
         }
     }
 }

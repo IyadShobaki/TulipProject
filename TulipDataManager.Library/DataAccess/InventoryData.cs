@@ -8,12 +8,18 @@ using TulipDataManager.Library.Models;
 
 namespace TulipDataManager.Library.DataAccess
 {
-    public class InventoryData
+    public class InventoryData : IInventoryData
     {
+        private readonly ISqlDataAccess _sqlDataAccess;
+
+        public InventoryData(ISqlDataAccess sqlDataAccess)
+        {
+            _sqlDataAccess = sqlDataAccess;
+        }
         public List<InventoryDisplayModel> GetInventory()
         {
-            SqlDataAccess sql = new SqlDataAccess();
-            var output = sql.LoadData<InventoryDisplayModel, dynamic>("spInventory_GetAll",
+            //SqlDataAccess sql = new SqlDataAccess();
+            var output = _sqlDataAccess.LoadData<InventoryDisplayModel, dynamic>("spInventory_GetAll",
                 new { }, "TulipData");
 
             return output;

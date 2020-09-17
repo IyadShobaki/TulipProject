@@ -11,7 +11,7 @@ using TulipDataManager.Library.Models;
 
 namespace TulipDataManager.Library.Internal.DataAccess
 {
-    internal class SqlDataAccess : IDisposable
+    public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
         public string GetConnectionString(string name)
         {
@@ -92,23 +92,23 @@ namespace TulipDataManager.Library.Internal.DataAccess
 
         public int CreateProductTransaction(string storedProcedure, ProductModel product)
         {
-            
-                var p = new DynamicParameters();
-                p.Add("@ProductName", product.ProductName);
-                p.Add("@Description", product.Description);
-                p.Add("@ProductImage", product.ProductImage);
-                p.Add("@RetailPrice", product.RetailPrice);
-                p.Add("@QuantityInStock", product.QuantityInStock);
-                p.Add("@IsTaxable", product.IsTaxable);
-                p.Add("@Sex", product.Sex);
-                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                _connection.Execute(storedProcedure,
-                        p, commandType: CommandType.StoredProcedure, transaction: _transaction);
+            var p = new DynamicParameters();
+            p.Add("@ProductName", product.ProductName);
+            p.Add("@Description", product.Description);
+            p.Add("@ProductImage", product.ProductImage);
+            p.Add("@RetailPrice", product.RetailPrice);
+            p.Add("@QuantityInStock", product.QuantityInStock);
+            p.Add("@IsTaxable", product.IsTaxable);
+            p.Add("@Sex", product.Sex);
+            p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                int newId = p.Get<int>("@id");
-                return newId;
-            
+            _connection.Execute(storedProcedure,
+                    p, commandType: CommandType.StoredProcedure, transaction: _transaction);
+
+            int newId = p.Get<int>("@id");
+            return newId;
+
         }
 
 
